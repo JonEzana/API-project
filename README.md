@@ -1,8 +1,10 @@
-# `<name of application here>`
+# Mod 4 Portfolio Project
 
 ## Database Schema Design
 
-`<insert database schema design here>`
+![airbnb-database-schema]
+
+[airbnb-database-schema]: ./images/airbnb_dbdiagram.png
 
 ## API Documentation
 
