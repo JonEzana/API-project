@@ -9,9 +9,9 @@ const router = express.Router();
 
 router.get('', async (req, res) => {
     const allSpots = await Spot.findAll();
-    const Spots = allSpots.map(spot => spot.toJSON());
-    res.json({Spots})
-});
+    const Spots = allSpots.map(spot => spot.toJSON())
+    res.json({Spots});
+})
 
 
 module.exports = router;

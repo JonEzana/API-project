@@ -29,7 +29,8 @@ module.exports = {
       lng: -122.4730327,
       name: "App Academy",
       description: "Place where web developers are created",
-      price: 123
+      price: 123,
+      ownerId: 1
     },
     {
       address: "45678 King Lane",
@@ -39,8 +40,9 @@ module.exports = {
       lat: 50.7698758,
       lng: -150.4709127,
       name: "General Assembly",
-      description: "Gas station App Academy",
-      price: 456
+      description: "Another place where web developers are created",
+      price: 456,
+      ownerId: 2
     },
     {
       address: "789 Queen's Boulevard",
@@ -51,7 +53,8 @@ module.exports = {
       lng: -146.4756727,
       name: "Code Dojo",
       description: "Cool Ranch Doritos of bootcamps",
-      price: 789
+      price: 789,
+      ownerId: 3
     }
    ], {})
   },
