@@ -83,11 +83,33 @@ router.get('/current', async (req, res) => {
   })
 
 // Get details of a Spot from an id
-// router.get('/:id', async (req, res) => {
-//     const spot = await Spot.findByPk(req.params.id);
-//     const spotWithImage = await spot.getSpotImage()
-//     res.json(spotWithImage)
-// })
+router.get('/:spotId', async (req, res, next) => {
+    let spot = await Spot.findByPk(req.params.spotId, {include: [{model: Review}, {model: SpotImage, attributes: ['id', 'url', 'preview']}, {model: User, attributes: ['id', 'firstName', 'lastName']}]})
+
+    if (!spot) {
+        res.statusCode = 404;
+        res.json({
+            message: "Spot couldn't be found"
+        });
+    }
+    else {
+        spot = spot.toJSON();
+        spot.numReviews = spot.Reviews.length;
+        const avgStar = spot.Reviews.reduce((acc, rev) => {
+            acc += rev.stars;
+            return acc;
+        }, 0);
+        spot.avgStarRating = avgStar / spot.Reviews.length;
+        spot.Owner = {
+            id: spot.User.id,
+            firstName: spot.User.firstName,
+            lastName: spot.User.lastName
+        }
+        delete spot.Reviews;
+        delete spot.User;
+        res.json(spot)
+    }
+});
 
 
 
