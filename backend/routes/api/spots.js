@@ -8,42 +8,6 @@ const router = express.Router();
 
 // Get all Spots
 router.get('', async (req, res) => {
-    // const Spots = await Spot.findAll({
-    //     include: [{model: Review, attributes: []}, {model: SpotImage, attributes: ['url'], as: 'previewImage', where: {preview: true}}],
-    //     attributes: {include: [[Sequelize.fn('AVG', Sequelize.col('stars')), 'avgRating']]}
-    // });
-
-    // res.json({Spots});
-    // const allSpots = await Spot.findAll({
-    //     include: [{model: Review, attributes: []}],
-    //     attributes: {include: [[Sequelize.fn('AVG', Sequelize.col('stars')), 'avgRating']]},
-    //     order: ['id']
-    // });
-    // const Spots = [];
-    // for (let i = 0; i < allSpots.length; i++){
-    //     const spoot = allSpots[i];
-    //     const spot = spoot.toJSON();
-    //     const spotImg = await spot.getSpotImages({attributes: ['url']})
-    //     const spotData = {
-    //         previewImage: spotImg[spotImg.length - 1].url,
-    //         id: spot.id,
-    //         ownerId: spot.ownerId,
-    //         address: spot.address,
-    //         city: spot.city,
-    //         state: spot.state,
-    //         country: spot.country,
-    //         lat: spot.lat,
-    //         lng: spot.lng,
-    //         name: spot.name,
-    //         description: spot.description,
-    //         price: spot.price,
-    //         createdAt: spot.createdAt,
-    //         updatedAt: spot.updatedAt,
-    //         avgRating: spot.avgRating
-    //     }
-    //     Spots.push(spotData)
-    // }
-    // res.json({Spots})
     const spots = await Spot.findAll({
         include: [{model: Review}, {model: SpotImage}],
         order: ['id']
