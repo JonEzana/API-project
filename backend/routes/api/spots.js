@@ -167,6 +167,7 @@ router.post('/:spotId/images', restoreUser, requireAuth, async (req, res) => {
     }  else {
         spot = spot.toJSON();
         console.log('SPOT: ', spot)
+        // AUTHORIZATION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         if (req.user.id !== spot.ownerId) {
             res.statusCode = 403;
             res.json({message: "Forbidden"})
@@ -210,6 +211,25 @@ router.post('', requireAuth, validateSpotCreation, async (req, res) => {
         createdAt: newSpot.createdAt,
         updatedAt: newSpot.updatedAt
     })
+});
+
+// Delete a spot
+router.delete('/:spotId', requireAuth, async (req, res) => {
+    console.log('REQ: ', req, '/REQ')
+    const spot = await Spot.findByPk(req.params.spotId);
+    if (!spot) {
+        res.statusCode = 404;
+        res.json({message: "Spot couldn't be found"})
+    } else {
+        if (req.user.id !== spot.ownerId) {
+            res.statusCode = 403;
+            res.json({message: "Forbidden"})
+        } else {
+            await spot.destroy();
+            res.statusCode = 200;
+            res.json({message: "Successfully deleted"})
+        }
+    }
 })
 
 
