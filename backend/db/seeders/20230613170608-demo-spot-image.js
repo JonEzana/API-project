@@ -18,17 +18,17 @@ module.exports = {
       },
       {
         spotId: 2,
-        url: 'image.url',
+        url: 'photo.url',
         preview: false
       },
       {
         spotId: 3,
-        url: 'image.url',
+        url: 'picture.url',
         preview: true
       },
       {
         spotId: 1,
-        url: 'image.url',
+        url: 'snapshot.url',
         preview: false
       }
     ])
