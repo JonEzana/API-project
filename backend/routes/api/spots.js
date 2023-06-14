@@ -3,7 +3,7 @@ const { Spot, Review, User, SpotImage, ReviewImage } = require('../../db/models'
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const {Sequelize} = require('sequelize');
-const { setTokenCookie, requireAuth } = require('../../utils/auth');
+const { restoreUser, requireAuth } = require('../../utils/auth');
 
 const router = express.Router();
 
@@ -45,9 +45,7 @@ router.get('', async (req, res) => {
 });
 
 // Get all Spots owned by the Current User
-router.get('/current', async (req, res) => {
-    //auth
-    requireAuth;
+router.get('/current', requireAuth, async (req, res) => {
     if (req.user) {
         const spots = await req.user.getSpots({
             include: [{model: Review}, {model: SpotImage}],
@@ -127,32 +125,27 @@ router.get('/:spotId/reviews', async (req, res) => {
 });
 
 // Add image to spot by spot id
-router.post('/:spotId/images', async (req, res) => {
-    //auth
-    requireAuth;
-    if (req.user) {
-        let spot = await req.user.getSpots({
-            where: {id: req.params.spotId},
-            include: [{model: SpotImage}]
-        });
-        if (spot) {
-            spot = spot[0].toJSON();
+router.post('/:spotId/images', restoreUser, requireAuth, async (req, res) => {
+
+    let spot = await Spot.findByPk(req.params.spotId, {include: [{model: SpotImage}]});
+    if (!spot) {
+        res.statusCode = 404;
+        res.json({message: "Spot couldn't be found"});
+    }  else {
+        spot = spot.toJSON();
+        console.log('SPOT: ', spot)
+        if (req.user.id !== spot.ownerId) {
+            res.statusCode = 403;
+            res.json({message: "Forbidden"})
+        } else {
             const newImage = await SpotImage.create({ spotId: spot.id, url: req.body.url, preview: req.body.preview});
             spot.SpotImages.push(newImage)
-
-            res.json({
-                id: newImage.id,
-                url: newImage.url,
-                preview: newImage.preview
-            })
-        } else {
-            res.statusCode = 404;
-            res.json({
-                message: "Spot couldn't be found"
-            });
+            res.json({id: newImage.id, url: newImage.url, preview: newImage.preview})
         }
     }
 });
+
+// Create a Spot
 
 
 
