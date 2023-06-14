@@ -5,6 +5,39 @@ const { handleValidationErrors } = require('../../utils/validation');
 const {Sequelize} = require('sequelize');
 const { restoreUser, requireAuth } = require('../../utils/auth');
 
+const validateSpotCreation = [
+    check('address')
+      .exists({ checkFalsy: true })
+      .withMessage('Street address is required'),
+    check('city')
+      .exists({ checkFalsy: true })
+      .isLength({min: 3})
+      .withMessage('City is required'),
+    check('state')
+      .exists({ checkFalsy: true })
+      .withMessage('State is required'),
+    check('country')
+      .exists({ checkFalsy: true })
+      .withMessage('Country is required'),
+    check('lat')
+      .exists({checkFalsy: true})
+      .withMessage('Latitude is not valid'),
+    check('lng')
+      .exists({checkFalsy: true})
+      .withMessage('Longitude is not valid'),
+    check('name')
+      .exists({checkFalsy: true})
+      .isLength({max: 49})
+      .withMessage('Name must be less than 50 characters'),
+    check('description')
+      .exists({checkFalsy: true})
+      .withMessage('Description is required'),
+    check('price')
+      .exists({checkFalsy: true})
+      .withMessage('Price per day is required'),
+    handleValidationErrors
+  ];
+
 const router = express.Router();
 
 // Get all Spots
@@ -146,7 +179,38 @@ router.post('/:spotId/images', restoreUser, requireAuth, async (req, res) => {
 });
 
 // Create a Spot
-
+router.post('', requireAuth, validateSpotCreation, async (req, res) => {
+    const error = {};
+    const {address, city, state, country, lat, lng, name, description, price} = req.body;
+    const newSpot = await Spot.create({
+        address,
+        city,
+        state,
+        country,
+        lat,
+        lng,
+        name,
+        description,
+        price,
+        ownerId: req.user.id
+    });
+    res.statusCode = 201;
+    res.json({
+        id: newSpot.id,
+        ownerId: newSpot.ownerId,
+        address,
+        city,
+        state,
+        country,
+        lat,
+        lng,
+        name,
+        description,
+        price,
+        createdAt: newSpot.createdAt,
+        updatedAt: newSpot.updatedAt
+    })
+})
 
 
 
