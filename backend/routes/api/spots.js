@@ -1,5 +1,5 @@
 const express = require('express');
-const { Spot, Review, User, SpotImage } = require('../../db/models');
+const { Spot, Review, User, SpotImage, ReviewImage } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const {Sequelize} = require('sequelize');
@@ -110,6 +110,19 @@ router.get('/:spotId', async (req, res, next) => {
         res.json(spot)
     }
 });
+
+router.get('/:spotId/reviews', async (req, res) => {
+    const spot = await Spot.findByPk(req.params.spotId, {include: {model: Review, include: [{model: User, attributes: ['id', 'firstName', 'lastName']}, {model: ReviewImage, attributes: ['id', 'url']}]}});
+    if (!spot) {
+        res.statusCode = 404;
+        res.json({
+            message: "Spot couldn't be found"
+        })
+    } else {
+        const Reviews = spot.Reviews;
+        res.json({Reviews})
+    }
+})
 
 
 
