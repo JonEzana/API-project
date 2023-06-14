@@ -181,7 +181,7 @@ router.post('/:spotId/images', restoreUser, requireAuth, async (req, res) => {
 
 // Create a Spot
 router.post('', requireAuth, validateSpotCreation, async (req, res) => {
-    const error = {};
+    // const error = {};
     const {address, city, state, country, lat, lng, name, description, price} = req.body;
     const newSpot = await Spot.create({
         address,
@@ -212,6 +212,35 @@ router.post('', requireAuth, validateSpotCreation, async (req, res) => {
         updatedAt: newSpot.updatedAt
     })
 });
+
+// Edit a spot
+router.put('/:spotId', requireAuth, async (req, res) => {
+    let spot = await Spot.findByPk(req.params.spotId)
+
+    if (!spot) {
+        res.statusCode = 404;
+        res.json({message: "Spot couldn't be found"});
+    }  else {
+        spot = spot.toJSON();
+        // AUTHORIZATION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        if (req.user.id !== spot.ownerId) {
+            res.statusCode = 403;
+            res.json({message: "Forbidden"})
+        } else {
+            spot.address = req.body.address;
+            spot.city = req.body.city,
+            spot.state = req.body.state,
+            spot.country = req.body.country,
+            spot.lat = req.body.lat,
+            spot.lng = req.body.lng,
+            spot.name = req.body.name,
+            spot.description = req.body.description,
+            spot.price = req.body.price;
+            res.statusCode = 200;
+            res.json(spot)
+        }
+    }
+})
 
 // Delete a spot
 router.delete('/:spotId', requireAuth, async (req, res) => {
