@@ -38,6 +38,19 @@ const validateSpotCreation = [
     handleValidationErrors
   ];
 
+  const validateReviewCreation = [
+    check('review')
+      .exists()
+      .isAlpha()
+      .withMessage('Review may only contain letters')
+      .withMessage('Review text is required'),
+    check('stars')
+      .exists()
+      .isInt({min: 0, max: 5})
+      .withMessage('Stars must be an integer from 0 to 5'),
+    handleValidationErrors
+  ];
+
 const router = express.Router();
 
 // Get all Spots
@@ -257,6 +270,31 @@ router.delete('/:spotId', requireAuth, async (req, res) => {
             await spot.destroy();
             res.statusCode = 200;
             res.json({message: "Successfully deleted"})
+        }
+    }
+});
+
+// Create a Review for a Spot based on Spot id
+router.post('/:spotId/reviews', requireAuth, validateReviewCreation, async (req, res) => {
+    let spot = await Spot.findByPk(req.params.spotId);
+    if (!spot) {
+        res.statusCode = 404;
+        return res.json({message: "Spot couldn't be found"})
+    } else {
+        let reviews = await spot.getReviews({where: {userId: req.user.id}});
+        console.log('REVIEWS: ', reviews)
+        if (reviews.length) {
+            res.statusCode = 500;
+            return res.json({message: "User already has a review for this spot"})
+        } else {
+            const { review, stars } = req.body;
+            const newReview = await Review.create({
+                userId: req.user.id,
+                spotId: req.params.spotId,
+                review,
+                stars,
+            });
+            res.json(newReview)
         }
     }
 })

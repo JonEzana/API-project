@@ -36,6 +36,8 @@ router.get('/current', restoreUser, requireAuth, async (req, res) => {
         }
         res.json({Reviews})
     }
-})
+});
+
+
 
 module.exports = router;
