@@ -14,20 +14,20 @@ module.exports = {
       {
         spotId: 1,
         userId: 1,
-        startDate: '2023-05-10',
-        endDate: '2023-05-12'
+        startDate: new Date('05-10-2023'),
+        endDate: new Date('05-12-2023')
       },
       {
         spotId: 2,
         userId: 2,
-        startDate: '2023-04-06',
-        endDate: '2023-04-15'
+        startDate: new Date('05-15-2023'),
+        endDate: new Date('05-19-2023')
       },
       {
         spotId: 3,
         userId: 3,
-        startDate: '2023-01-24',
-        endDate: '2023-02-01'
+        startDate: new Date('05-24-2023'),
+        endDate: new Date('05-30-2023')
       }
     ], {});
   },
