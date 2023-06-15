@@ -41,8 +41,6 @@ const validateSpotCreation = [
   const validateReviewCreation = [
     check('review')
       .exists()
-      .isAlpha()
-      .withMessage('Review may only contain letters')
       .withMessage('Review text is required'),
     check('stars')
       .exists()
@@ -255,7 +253,7 @@ router.put('/:spotId', requireAuth, validateSpotCreation, async (req, res) => {
     }
 })
 
-// Delete a spot
+// Delete a spot -- AUTHORIZATION
 router.delete('/:spotId', requireAuth, async (req, res) => {
     console.log('REQ: ', req, '/REQ')
     const spot = await Spot.findByPk(req.params.spotId);
@@ -298,9 +296,5 @@ router.post('/:spotId/reviews', requireAuth, validateReviewCreation, async (req,
         }
     }
 })
-
-
-
-
 
 module.exports = router;
