@@ -7,33 +7,33 @@ const { restoreUser, requireAuth } = require('../../utils/auth');
 
 const validateSpotCreation = [
     check('address')
-      .exists({ checkFalsy: true })
+      .exists()
       .withMessage('Street address is required'),
     check('city')
-      .exists({ checkFalsy: true })
+      .exists()
       .isLength({min: 3})
       .withMessage('City is required'),
     check('state')
-      .exists({ checkFalsy: true })
+      .exists()
       .withMessage('State is required'),
     check('country')
-      .exists({ checkFalsy: true })
+      .exists()
       .withMessage('Country is required'),
     check('lat')
-      .exists({checkFalsy: true})
+      .exists()
       .withMessage('Latitude is not valid'),
     check('lng')
-      .exists({checkFalsy: true})
+      .exists()
       .withMessage('Longitude is not valid'),
     check('name')
-      .exists({checkFalsy: true})
+      .exists()
       .isLength({max: 49})
       .withMessage('Name must be less than 50 characters'),
     check('description')
-      .exists({checkFalsy: true})
+      .exists()
       .withMessage('Description is required'),
     check('price')
-      .exists({checkFalsy: true})
+      .exists()
       .withMessage('Price per day is required'),
     handleValidationErrors
   ];
@@ -214,7 +214,7 @@ router.post('', requireAuth, validateSpotCreation, async (req, res) => {
 });
 
 // Edit a spot
-router.put('/:spotId', requireAuth, async (req, res) => {
+router.put('/:spotId', requireAuth, validateSpotCreation, async (req, res) => {
     let spot = await Spot.findByPk(req.params.spotId)
 
     if (!spot) {
