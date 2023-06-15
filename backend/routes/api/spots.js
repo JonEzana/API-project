@@ -1,5 +1,5 @@
 const express = require('express');
-const { Spot, Review, User, SpotImage, ReviewImage } = require('../../db/models');
+const { Spot, Review, User, SpotImage, ReviewImage, Booking } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const {Sequelize} = require('sequelize');
@@ -295,6 +295,34 @@ router.post('/:spotId/reviews', requireAuth, validateReviewCreation, async (req,
             res.json(newReview)
         }
     }
-})
+});
+
+// Get all bookings for a spot by spot id
+router.get('/:spotId/bookings', restoreUser, requireAuth, async (req, res) => {
+    let Bookings;
+    let spot = await Spot.findByPk(req.params.spotId, {include: [{model: Booking, attributes: ['id', 'spotId', 'userId', 'startDate', 'endDate', 'createdAt', 'updatedAt'], include: [{model: User, attributes: ['id', 'firstName', 'lastName']}]}, ]});
+    if (!spot) {
+        res.statusCode = 404;
+        return res.json({message: "Spot couldn't be found"});
+    } else {
+        spot = spot.toJSON();
+        Bookings = spot.Bookings;
+        res.statusCode = 200;
+        if (req.user) {
+            if (req.user.id === spot.ownerId) {
+                return res.json({Bookings});
+            } else {
+                Bookings.forEach(booking => {
+                    delete booking.User;
+                    delete booking.id;
+                    delete booking.userId;
+                    delete booking.createdAt;
+                    delete booking.updatedAt;
+                });
+                return res.json({Bookings});
+            }
+        }
+    }
+});
 
 module.exports = router;
