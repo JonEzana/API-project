@@ -60,6 +60,24 @@ router.post('/:reviewId/images', restoreUser, requireAuth, async (req, res) => {
             }
         }
     }
-})
+});
+
+// Delete a review
+router.delete('/:reviewId', restoreUser, requireAuth, async (req, res) => {
+    const review = await Review.findByPk(req.params.reviewId);
+    if (!review) {
+        res.statusCode = 404;
+        return res.json({message: "Review couldn't be found"})
+    } else {
+        if (req.user.id !== review.userId) {
+            res.statusCode = 403;
+            return res.json({message: "Forbidden"});
+        } else {
+            await review.destroy();
+            res.statusCode = 200;
+            return res.json({message: "Successfully deleted"})
+        }
+    }
+});
 
 module.exports = router;
