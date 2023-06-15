@@ -5,16 +5,16 @@ const { handleValidationErrors } = require('../../utils/validation');
 const {Sequelize} = require('sequelize');
 const { restoreUser, requireAuth } = require('../../utils/auth');
 
-const validateDate = [
-    check('review')
-      .exists()
-      .withMessage('Review text is required'),
-    check('stars')
-      .exists()
-      .isInt({min: 0, max: 5})
-      .withMessage('Stars must be an integer from 0 to 5'),
-    handleValidationErrors
-  ];
+// const validateDate = [
+//     check('review')
+//       .exists()
+//       .withMessage('Review text is required'),
+//     check('stars')
+//       .exists()
+//       .isInt({min: 0, max: 5})
+//       .withMessage('Stars must be an integer from 0 to 5'),
+//     handleValidationErrors
+//   ];
 
 const router = express.Router();
 
@@ -44,6 +44,8 @@ router.get('/current', restoreUser, requireAuth, async (req, res) => {
         });
         res.json({Bookings})
     }
-})
+});
+
+
 
 module.exports = router;
