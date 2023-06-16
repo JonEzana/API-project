@@ -20,16 +20,21 @@ const validateDate = [
     ];
 
 const isStartDateGood = (startingDate) => {
-const starDate = new Date(startingDate).getTime();
-// const currentDate = new Date().toISOString().split('T')[0].getTime();
-const currentDate = new Date().getTime();
-return starDate > currentDate;
+    const starDate = new Date(startingDate).getTime();
+    const currentDate = new Date().getTime();
+    return starDate > currentDate;
 }
 
 const isEndDateGood = (startingDate, endingDate) => {
-const starDate = new Date(startingDate).getTime();
-const endDate = new Date(endingDate).getTime();
-return endDate > starDate
+    const starDate = new Date(startingDate).getTime();
+    const endDate = new Date(endingDate).getTime();
+    return endDate > starDate
+}
+
+const isEndDatePast = (endingDate) => {
+    const enDate = new Date(endingDate).getTime();
+    const currentDate = new Date().getTime();
+    return enDate > currentDate;
 }
 
 const checkBookingConflict = (oldBooking, newStar, newEn) => {
@@ -51,6 +56,7 @@ const checkBookingDateValidity = (startDate, endDate) => {
     const now = new Date().getTime();
     return (start > now && end > now)
 }
+
 
 // Get all bookings for current user
 router.get('/current', restoreUser, requireAuth, async (req, res) => {
@@ -85,6 +91,7 @@ router.put('/:bookingId', requireAuth, validateDate, async (req, res) => {
     const {startDate, endDate} = req.body;
     const checkStart = isStartDateGood(startDate);
     const checkEnd = isEndDateGood(startDate, endDate);
+    const validEnd = isEndDatePast(endDate);
     const bookingDateValidity = checkBookingDateValidity(startDate, endDate);
     let err = {};
 
@@ -95,6 +102,9 @@ router.put('/:bookingId', requireAuth, validateDate, async (req, res) => {
     } else if (req.user.id !== booking.userId) {
         res.statusCode = 403;
         return res.json({message: "Forbidden"})
+    } else if (validEnd === false) {
+        res.statusCode = 400;
+        return res.json({message: "Past bookings can't be modified"});
     } else if (checkStart === false) {
         res.statusCode = 400;
         err.message = "Bad Request"
@@ -134,6 +144,7 @@ router.put('/:bookingId', requireAuth, validateDate, async (req, res) => {
 
 // Delete booking
 router.delete('/:bookingId', requireAuth, async (req, res) => {
+    const isStartDateBeforePresent = checkBookingDateValidity(booking.startDate, booking.endDate)
     let booking = await Booking.findByPk(req.params.bookingId, {include: [{model: Spot, attributes: ['ownerId']}]});
     if (!booking) {
         res.statusCode = 404;
@@ -142,7 +153,7 @@ router.delete('/:bookingId', requireAuth, async (req, res) => {
         if ((req.user.id !== booking.userId) && (req.user.id !== booking.Spot.ownerId)) {
             res.statusCode = 403;
             return res.json({message: "Forbidden"})
-        } else if (checkBookingDateValidity(booking.startDate, booking.endDate) === false) {
+        } else if (isStartDateBeforePresent === false) {
             res.statusCode = 403;
             return res.json({message: "Bookings that have been started can't be deleted"});
         } else {
