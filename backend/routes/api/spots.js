@@ -93,18 +93,21 @@ const checkBookingConflict = (oldBooking, newStar, newEn) => {
 // Get all Spots
 router.get('', async (req, res) => {
     let pagination = {};
-
+    let err = {};
     let {page, size} = req.query;
 
     if (!size) size = 20;
     if ( size < 1 || size > 20) {
-        error.errors.size = "Size must be greater than or equal to 1";
+        err.errors.size = "Size must be greater than or equal to 1";
     } else {
         pagination.limit = parseInt(size);
     }
     if (!page) page = 1;
     if (page > 10 || page < 1) {
-        error.errors.page = "Page must be greater than or equal to 1";
+        err.errors.page = "Page must be greater than or equal to 1";
+        err.message = "Bad Request";
+        res.statusCode = 400;
+        return res.json(err);
     } else {
         pagination.offset = parseInt(size) * (parseInt(page) - 1);
     }
