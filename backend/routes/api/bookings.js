@@ -144,12 +144,12 @@ router.put('/:bookingId', requireAuth, validateDate, async (req, res) => {
 
 // Delete booking
 router.delete('/:bookingId', requireAuth, async (req, res) => {
-    const isStartDateBeforePresent = checkBookingDateValidity(booking.startDate, booking.endDate)
     let booking = await Booking.findByPk(req.params.bookingId, {include: [{model: Spot, attributes: ['ownerId']}]});
     if (!booking) {
         res.statusCode = 404;
         return res.json({message: "Booking couldn't be found"})
     } else {
+        const isStartDateBeforePresent = checkBookingDateValidity(booking.startDate, booking.endDate)
         if ((req.user.id !== booking.userId) && (req.user.id !== booking.Spot.ownerId)) {
             res.statusCode = 403;
             return res.json({message: "Forbidden"})
