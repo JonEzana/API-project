@@ -456,7 +456,7 @@ router.post('/:spotId/bookings', requireAuth, validateDate, async (req, res) => 
             if (checkEnd === false) {
                 res.statusCode = 400;
                 err.message = "Bad Request"
-                err.errors = {"startDate": 'End date cannot be on or before start date'};
+                err.errors = {"endDate": 'End date cannot be on or before start date'};
                 return res.json(err)
             }
             for (let booking of spot.Bookings) {
