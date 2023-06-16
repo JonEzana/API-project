@@ -19,7 +19,7 @@ const validateReviewCreation = [
 const router = express.Router();
 
 // Get all reviews of the current user
-router.get('/current', restoreUser, requireAuth, async (req, res) => {
+router.get('/current', requireAuth, async (req, res) => {
     if (req.user) {
         let reviews = await req.user.getReviews({
             include: [
@@ -39,9 +39,11 @@ router.get('/current', restoreUser, requireAuth, async (req, res) => {
                 let image = review.Spot.SpotImages[j];
                 if (image.preview === true) {
                     review.Spot.previewImage = image.url;
+                    delete review.Spot.SpotImages;
                     break;
                 } else {
                     review.Spot.previewImage = null;
+                    delete review.Spot.SpotImages;
                 }
             }
         }
@@ -50,7 +52,7 @@ router.get('/current', restoreUser, requireAuth, async (req, res) => {
 });
 
 // Add image to review based on review id
-router.post('/:reviewId/images', restoreUser, requireAuth, async (req, res) => {
+router.post('/:reviewId/images', requireAuth, async (req, res) => {
     const review = await Review.findByPk(req.params.reviewId, {include: [{model: ReviewImage}]});
     if (!review) {
         res.statusCode = 404;
@@ -103,7 +105,7 @@ router.put('/:reviewId', requireAuth, validateReviewCreation, async (req, res) =
 })
 
 // Delete a review
-router.delete('/:reviewId', restoreUser, requireAuth, async (req, res) => {
+router.delete('/:reviewId', requireAuth, async (req, res) => {
     const review = await Review.findByPk(req.params.reviewId);
     if (!review) {
         res.statusCode = 404;

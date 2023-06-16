@@ -89,7 +89,6 @@ router.put('/:bookingId', requireAuth, validateDate, async (req, res) => {
     let err = {};
 
     let booking = await Booking.findByPk(req.params.bookingId, {include: {model: Spot, include: {model: Booking}}});
-    console.log(booking.toJSON())
     if (!booking) {
         res.statusCode = 404;
         return res.json({message: "Booking couldn't be found"})
