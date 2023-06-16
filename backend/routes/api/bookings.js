@@ -1,22 +1,18 @@
 const express = require('express');
 const { Spot, Review, User, SpotImage, ReviewImage, Booking } = require('../../db/models');
-const { check } = require('express-validator');
+const { check, body } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const {Sequelize} = require('sequelize');
 const { restoreUser, requireAuth } = require('../../utils/auth');
 
-// const validateDate = [
-//     check('review')
-//       .exists()
-//       .withMessage('Review text is required'),
-//     check('stars')
-//       .exists()
-//       .isInt({min: 0, max: 5})
-//       .withMessage('Stars must be an integer from 0 to 5'),
-//     handleValidationErrors
-//   ];
-
 const router = express.Router();
+
+const checkBookingDeletion = (startDate, endDate) => {
+    const start = new Date(startDate).getTime();
+    const end = new Date(endDate).getTime();
+    const now = new Date().getTime();
+    return (start > now && end > now)
+}
 
 // Get all bookings for current user
 router.get('/current', restoreUser, requireAuth, async (req, res) => {
@@ -46,6 +42,26 @@ router.get('/current', restoreUser, requireAuth, async (req, res) => {
     }
 });
 
+// Delete booking
+router.delete('/:bookingId', requireAuth, async (req, res) => {
+    let booking = await Booking.findByPk(req.params.bookingId, {include: [{model: Spot, attributes: ['ownerId']}]});
+    if (!booking) {
+        res.statusCode = 404;
+        return res.json({message: "Booking couldn't be found"})
+    } else {
+        if ((req.user.id !== booking.userId) && (req.user.id !== booking.Spot.ownerId)) {
+            res.statusCode = 403;
+            return res.json({message: "Forbidden"})
+        } else if (checkBookingDeletion(booking.startDate, booking.endDate) === false) {
+            res.statusCode = 403;
+            return res.json({message: "Bookings that have been started can't be deleted"});
+        } else {
+            await booking.destroy();
+            res.statusCode = 200;
+            res.json({message: "Successfully deleted"})
+        }
+    }
+});
 
 
 module.exports = router;
