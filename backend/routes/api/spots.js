@@ -98,13 +98,16 @@ router.get('', async (req, res) => {
 
     if (!size) size = 20;
     if ( size < 1 || size > 20) {
-        err.errors["'size'"] = "Size must be greater than or equal to 1";
+        err.errors = {"size": "Size must be greater than or equal to 1"};
+        err.message = "Bad Request";
+        res.statusCode = 400;
+        return res.json(err);
     } else {
         pagination.limit = parseInt(size);
     }
     if (!page) page = 1;
     if (page > 10 || page < 1) {
-        err.errors["'page'"] = "Page must be greater than or equal to 1";
+        err.errors = {"page": "Page must be greater than or equal to 1"};
         err.message = "Bad Request";
         res.statusCode = 400;
         return res.json(err);
