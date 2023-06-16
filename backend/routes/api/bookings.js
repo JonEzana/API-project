@@ -126,11 +126,11 @@ router.put('/:bookingId', requireAuth, validateDate, async (req, res) => {
         }
     }
     booking.startDate = startDate;
-    booking.endDate = endDate
+    booking.endDate = endDate;
+    await booking.save();
+    const {id, spotId, userId, createdAt, updatedAt} = booking;
     res.statusCode = 200;
-    res.json(booking)
-
-
+    res.json({id, spotId, userId, startDate, endDate, createdAt, updatedAt})
 });
 
 // Delete booking
