@@ -226,7 +226,7 @@ router.get('/:spotId/reviews', async (req, res) => {
 });
 
 // Add image to spot by spot id
-router.post('/:spotId/images', restoreUser, requireAuth, async (req, res) => {
+router.post('/:spotId/images', requireAuth, async (req, res) => {
 
     let spot = await Spot.findByPk(req.params.spotId, {include: [{model: SpotImage}]});
     if (!spot) {
@@ -304,7 +304,7 @@ router.put('/:spotId', requireAuth, validateSpotCreation, async (req, res) => {
             spot.name = req.body.name,
             spot.description = req.body.description,
             spot.price = req.body.price;
-            await spot.save();
+            // await spot.save();
             res.statusCode = 200;
             res.json(spot)
         }
@@ -356,7 +356,7 @@ router.post('/:spotId/reviews', requireAuth, validateReviewCreation, async (req,
 });
 
 // Get all bookings for a spot by spot id
-router.get('/:spotId/bookings', restoreUser, requireAuth, async (req, res) => {
+router.get('/:spotId/bookings', requireAuth, async (req, res) => {
     let Bookings;
     let spot = await Spot.findByPk(req.params.spotId, {include: [{model: Booking, attributes: ['id', 'spotId', 'userId', 'startDate', 'endDate', 'createdAt', 'updatedAt'], include: [{model: User, attributes: ['id', 'firstName', 'lastName']}]}, ]});
     if (!spot) {
