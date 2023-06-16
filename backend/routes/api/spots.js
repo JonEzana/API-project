@@ -92,13 +92,9 @@ const checkBookingConflict = (oldBooking, newStar, newEn) => {
 
 // Get all Spots
 router.get('', async (req, res) => {
-
-    let query = {};
     let pagination = {};
-    let error = {};
-    error.message = "Bad Request"
 
-    let {page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice} = req.query;
+    let {page, size} = req.query;
 
     if (!size) size = 20;
     if ( size < 1 || size > 20) {
@@ -112,59 +108,14 @@ router.get('', async (req, res) => {
     } else {
         pagination.offset = parseInt(size) * (parseInt(page) - 1);
     }
-    if (minLat) {
-        if ( minLat < -90) {
-            error.errors.minLat = "Minimum latitude is invalid"
-        } else {
-            query.where.minLat = minLat;
-        }
-    }
-    if (maxLat) {
-        if ( maxLat < 90) {
-            error.errors.maxLat = "Maximum latitude is invalid"
-        } else {
-            query.where.maxLat = maxLat;
-        }
-    }
-    if (minLng) {
-        if (minLng < -180) {
-            error.errors.minLng = "Minimum longitude is invalid"
-        } else {
-            query.where.minLng = minLng;
-        }
-    }
-    if (maxLng) {
-        if (maxLng > 180) {
-            error.errors.maxLng = "Maximum longitude is invalid"
-        } else {
-            query.where.maxLng = maxLng;
-        }
-    }
-    if (minPrice) {
-        if (minPrice < 0) {
-            error.errors.minPrice = "Minimum price must be greater than or equal to 0"
-        } else {
-            query.where.minPrice = minPrice;
-        }
-    }
-    if (maxPrice) {
-        if (maxPrice < 0) {
-            error.errors.maxPrice = "Maximum price must be greater than or equal to 0"
-        } else {
-            query.where.maxPrice = maxPrice;
-        }
-    }
-    res.statusCode = 400;
-    res.json(error);
 
     const spots = await Spot.findAll({
         include: [{model: Review}, {model: SpotImage}],
         order: ['id'],
-        ...query,
         ...pagination
     });
 
-   { let Spots = [];
+   let Spots = [];
     spots.forEach(spot => {
         Spots.push(spot.toJSON())
     });
@@ -190,7 +141,7 @@ router.get('', async (req, res) => {
         delete spot.SpotImages;
     });
 
-    res.json({Spots})}
+    return res.status(200).json({Spots, "page": page, "size": size})
 
 });
 
@@ -353,6 +304,7 @@ router.put('/:spotId', requireAuth, validateSpotCreation, async (req, res) => {
             spot.name = req.body.name,
             spot.description = req.body.description,
             spot.price = req.body.price;
+            await spot.save();
             res.statusCode = 200;
             res.json(spot)
         }
