@@ -1,0 +1,18 @@
+
+
+.profile-button{
+    border: 1px solid grey;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    padding: 6px;
+}
+.profile-button:hover{
+    cursor: pointer;
+}
+.fa-sharp{
+    padding: 3px;
+}
+.hidden{
+    display: none;
+}

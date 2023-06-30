@@ -17,7 +17,7 @@ router.delete('/:reviewImgId', restoreUser, requireAuth, async (req, res) => {
         res.json({message: "Review Image couldn't be found"})
     } else {
         let image = img.toJSON();
-        console.log(image)
+        // console.log(image)
         if (req.user.id !== image.Review.User.id) {
             res.statusCode = 403;
             res.json({message: "Forbidden"})
