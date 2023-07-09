@@ -61,8 +61,10 @@ export const thunkLogout = () => async (dispatch) => {
     const response = await csrfFetch('/api/session', {
         method: 'DELETE'
     });
-    dispatch(actionRemoveSession());
-    return response;
+    if (response.ok) {
+        dispatch(actionRemoveSession());
+        // return response;
+    }
 }
 
 const initialState = {user: null};

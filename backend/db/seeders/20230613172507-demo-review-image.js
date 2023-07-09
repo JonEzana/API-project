@@ -13,23 +13,15 @@ module.exports = {
     return queryInterface.bulkInsert(options, [
       {
         reviewId: 1,
-        url: 'image.url'
+        url: 'https://cdn.apartmenttherapy.info/image/upload/f_auto,q_auto:eco,c_fit,w_730,h_487/stock%2F8ea241e96504a398f291a31939963e8ba948368c'
       },
       {
         reviewId: 2,
-        url: 'picture.url'
+        url: 'https://cdn.apartmenttherapy.info/image/upload/f_auto,q_auto:eco,c_fit,w_730,h_487/stock%2F8ea241e96504a398f291a31939963e8ba948368c'
       },
       {
         reviewId: 3,
-        url: 'photo.url'
-      },
-      {
-        reviewId: 4,
-        url: 'documentation.png'
-      },
-      {
-        reviewId: 5,
-        url: 'pic.img'
+        url: 'https://cdn.apartmenttherapy.info/image/upload/f_auto,q_auto:eco,c_fit,w_730,h_487/stock%2F8ea241e96504a398f291a31939963e8ba948368c'
       }
     ], {});
   },

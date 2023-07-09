@@ -13,9 +13,7 @@ function Navigation({ isLoaded }) {
   let sessionLinks;
   if (sessionUser) {
     sessionLinks = (
-      <li>
         <ProfileButton user={sessionUser} />
-      </li>
     );
   } else {
     sessionLinks = (
@@ -33,14 +31,19 @@ function Navigation({ isLoaded }) {
   }
 
   return (
-    <ul>
-      <li>
-        <NavLink exact to="/">
-          Home
-        </NavLink>
-      </li>
-      {isLoaded && sessionLinks}
-    </ul>
+    <>
+      <div className='nav-bar'>
+          <NavLink exact to="/">
+            <div className="logo-btn">
+              <i className="fa-brands fa-airbnb"> fairdnd</i>
+            </div>
+          </NavLink>
+          {sessionUser && <NavLink to="/spots/new" className="new-spot-link">
+            Create a New Spot
+          </NavLink>}
+        {isLoaded && sessionLinks}
+      </div>
+    </>
   );
 }
 

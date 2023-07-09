@@ -1,0 +1,16 @@
+.errors{
+    color: red;
+}
+
+.spot-form{
+    margin: 70px 33%;
+    display: grid;
+}
+
+.full {
+    width: 100%;
+}
+
+.hidden{
+    visibility: hidden;
+}

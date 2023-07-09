@@ -1,0 +1,30 @@
+.spots-container{
+    display: grid;
+    grid-template-columns: repeat(4, 25%);
+    margin: 70px 50px;
+    font-family:'Times New Roman', Times, serif;
+}
+
+.spot{
+    padding: 10px;
+    margin-bottom: -10px;
+}
+.tooltip{
+    position: relative;
+    visibility: hidden;
+}
+.tooltip:hover{
+    visibility: visible;
+}
+.spot-img{
+    width:100%;
+    height:60%;
+}
+.loc-price{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: -30px;
+}
+.spot:hover{
+    cursor: pointer;
+}
