@@ -1,0 +1,11 @@
+.rating-input{
+    display: flex;
+    flex-direction: row;
+}
+.rating-input .filled {
+    color: rgb(230, 178, 24);
+}
+
+.rating-input .empty {
+    color: grey;
+  }

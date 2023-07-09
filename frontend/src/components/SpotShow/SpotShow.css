@@ -1,0 +1,15 @@
+.main{
+    margin: 70px 0 9% 9%;
+}
+
+.img-container{
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(auto, minmax(180px));
+}
+.rev-btn{
+    border: 1px solid red;
+    background-color: red;
+}
+.hidden{
+    visibility: hidden;
+}

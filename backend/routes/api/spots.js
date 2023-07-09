@@ -22,12 +22,12 @@ const validateSpotCreation = [
     check('country')
       .exists()
       .withMessage('Country is required'),
-    check('lat')
-      .exists()
-      .withMessage('Latitude is not valid'),
-    check('lng')
-      .exists()
-      .withMessage('Longitude is not valid'),
+    // check('lat')
+    //   .exists()
+    //   .withMessage('Latitude is not valid'),
+    // check('lng')
+    //   .exists()
+    //   .withMessage('Longitude is not valid'),
     check('name')
       .exists()
       .isLength({max: 49})
@@ -142,7 +142,10 @@ router.get('', async (req, res) => {
         spot.Reviews.forEach(review => {
             total += review.stars;
         });
-        spot.avgRating = total / spot.Reviews.length
+        let avg;
+        spot.Reviews.length ? avg = (total / spot.Reviews.length) : avg = 0;
+        avg === 0 ? spot.avgRating = 0 : spot.avgRating = (avg).toFixed(1);
+
         delete spot.Reviews;
         delete spot.SpotImages;
     });
@@ -180,7 +183,11 @@ router.get('/current', requireAuth, async (req, res) => {
             spot.Reviews.forEach(review => {
                 total += review.stars;
             });
-            spot.avgRating = total / spot.Reviews.length
+
+            let avg;
+            spot.Reviews.length ? avg = (total / spot.Reviews.length) : avg = 0;
+            avg === 0 ? spot.avgRating = 0 : spot.avgRating = (avg).toFixed(1);
+
             delete spot.Reviews;
             delete spot.SpotImages;
         });
@@ -338,17 +345,23 @@ router.delete('/:spotId', requireAuth, async (req, res) => {
 
 // Create a Review for a Spot based on Spot id
 router.post('/:spotId/reviews', requireAuth, validateReviewCreation, async (req, res) => {
+    console.log('ROUTE - req.body', req.body)
     let spot = await Spot.findByPk(req.params.spotId);
+    console.log('2')
     if (!spot) {
+        console.log('3')
         res.statusCode = 404;
         return res.json({message: "Spot couldn't be found"})
     } else {
+        console.log('4')
         let reviews = await spot.getReviews({where: {userId: req.user.id}});
         // console.log('REVIEWS: ', reviews)
         if (reviews.length) {
+            console.log('5')
             res.statusCode = 500;
             return res.json({message: "User already has a review for this spot"})
         } else {
+            console.log('6')
             const { review, stars } = req.body;
             const newReview = await Review.create({
                 userId: req.user.id,
@@ -356,7 +369,8 @@ router.post('/:spotId/reviews', requireAuth, validateReviewCreation, async (req,
                 review,
                 stars,
             });
-            res.json(newReview)
+            console.log('7')
+            return res.status(201).json(newReview)
         }
     }
 });
