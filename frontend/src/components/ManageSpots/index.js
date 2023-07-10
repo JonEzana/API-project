@@ -6,6 +6,7 @@ import {UpdateSpot} from '../UpdateSpot';
 import { useModal } from '../../context/Modal';
 import OpenModalButton from "../OpenModalButton";
 import { DeleteSpotModal } from "../DeleteSpotModal";
+import './ManageSpots.css';
 
 export const ManageSpots = () => {
     const dispatch = useDispatch();
@@ -21,15 +22,15 @@ export const ManageSpots = () => {
     let spots = [...Object.values(userSpots)]
 
     return (
-        <>
+        <div className="main">
             <div className='header'>
                 <h2>Manage Your Spots</h2>
-                <button onClick={() => history.push('/spots/new')}>Create a New Spot</button>
+                <button onClick={() => history.push('/spots/new')} className="createbtn">Create a New Spot</button>
             </div>
             <div className='spots-container'>
             {spots.map(spot => (
                 <div className='spot' title={`${spot.name}`}  >
-                    <div onClick={() => history.push(`/spots/${spot.id}`)}>
+                    <span onClick={() => history.push(`/spots/${spot.id}`)} className="individualSpot">
                         <img  className="spot-img" src={spot.previewImage ? `${spot.previewImage}` : 'https://clipart-library.com/img/1643520.jpg'} alt={spot.name}></img>
                         <div className="loc-price">
                             <p>{spot.city}, {spot.state}</p>
@@ -39,8 +40,8 @@ export const ManageSpots = () => {
                             </h4>
                         </div>
                         <h4>${spot.price}/night</h4>
-                    </div>
-                    <button onClick={() => history.push(`/spots/${spot.id}/edit`)}>Update</button>
+                    </span>
+                    <button onClick={() => history.push(`/spots/${spot.id}/edit`)} className="updatebtn">Update</button>
                     <OpenModalButton
                         buttonText="Delete"
                         modalComponent={<DeleteSpotModal id={spot.id}/>}
@@ -48,6 +49,6 @@ export const ManageSpots = () => {
                 </div>
             ))}
             </div>
-        </>
+        </div>
     );
 }

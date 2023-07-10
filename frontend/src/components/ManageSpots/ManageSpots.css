@@ -1,0 +1,41 @@
+.main{
+    margin-top: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.header{
+    margin-left: 60px;
+}
+.createbtn{
+    width: 160px;
+    height: 20px;
+    background-color: grey;
+    color: white;
+    border: 1px solid black;
+    box-shadow: 3px 3px 3px black;
+    margin-right: 10px;
+}
+.createbtn:hover{
+    background-color: black;
+    color: white;
+    cursor: pointer;
+}
+
+.spot{
+    margin-top: -35px;
+}
+.individualSpot{
+}
+.updatebtn{
+    background-color: grey;
+    color: white;
+    border: 1px solid black;
+    box-shadow: 3px 3px 3px black;
+    margin-right: 10px;
+}
+.updatebtn:hover{
+    background-color: black;
+    color: white;
+    cursor: pointer;
+}

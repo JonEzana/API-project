@@ -177,7 +177,7 @@ export default function spotsReducer(state = initialState, action) {
             return newState;
         }
         case UPDATE_SPOT: {
-            const newState = {...state, allSpots: {...state.allSpots}, singleSpot: {...state.singleSpot}, currentUserSpots: {...state.currentUserSpots}};
+            const newState = {...state, allSpots: {}, singleSpot: {}, currentUserSpots: {...state.currentUserSpots}};
             newState.singleSpot[action.payload.id] = action.payload;
             newState.allSpots[action.payload.id] = action.payload;
             newState.currentUserSpots[action.payload.id] = action.payload;

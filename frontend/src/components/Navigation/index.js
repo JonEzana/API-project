@@ -10,28 +10,7 @@ import "./Navigation.css";
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector((state) => state.session.user);
 
-  let sessionLinks;
-  if (sessionUser) {
-    sessionLinks = (
-        <ProfileButton user={sessionUser} />
-    );
-  } else {
-    sessionLinks = (
-      <li>
-        <OpenModalButton
-          buttonText="Log In"
-          modalComponent={<LoginFormModal />}
-        />
-        <OpenModalButton
-          buttonText="Sign Up"
-          modalComponent={<SignupFormModal />}
-        />
-      </li>
-    );
-  }
-
   return (
-    <>
       <div className='nav-bar'>
           <NavLink exact to="/">
             <div className="logo-btn">
@@ -41,9 +20,10 @@ function Navigation({ isLoaded }) {
           {sessionUser && <NavLink to="/spots/new" className="new-spot-link">
             Create a New Spot
           </NavLink>}
-        {isLoaded && sessionLinks}
+          {isLoaded && (
+            <ProfileButton user={sessionUser} />
+          )}
       </div>
-    </>
   );
 }
 

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
-import { thunkCreateReview } from "../../store/reviews";
+import { thunkCreateReview, thunkReviewsBySpot } from "../../store/reviews";
 import { thunkGetSingleSpot } from "../../store/spots";
 import { useModal } from "../../context/Modal";
 import './CreateReviewModal.css';
@@ -14,25 +14,24 @@ export const CreateReviewModal = ({spotId}) => {
     const reviews = useSelector(state => state.reviews.spot);
     const user = useSelector(state => state.session.user);
     const userId = user.id;
+    console.log('LINE 17....', user)
 
     const [revText, setRevText] = useState('');
     const [stars, setStars] = useState(null)
-    const [disabled, setDisabled] = useState(false);
+    const [disabled, setDisabled] = useState(true);
     console.log('REVIWS - createModal: ', reviews)
-    useEffect(() => {
-        revText.length < 10 ? setDisabled(true) : setDisabled(false);
-        // reviews.find(el => el.)
-    }, [revText]);
+    // useEffect(() => {
+    //     revText.length >= 10 && stars > 0 ? setDisabled(false) : setDisabled(false);
+    //     // reviews.find(el => el.)
+    // }, [revText]);
     // if (!Object.values(spot).length || !Object.values(user).length) return null;
     spotId = +spotId;
     const handleSubmit = async () => {
         const reviewData = {userId, spotId, revText, stars};
-        console.log('Right before dispatch', reviewData)
         const res = await dispatch(thunkCreateReview(reviewData));
-        await dispatch(thunkGetSingleSpot(spotId))
         if (res.id) {
             closeModal()
-            reset();
+            await dispatch(thunkReviewsBySpot(spotId))
             history.push(`/spots/${spotId}`)
         }
     }
@@ -48,7 +47,7 @@ export const CreateReviewModal = ({spotId}) => {
       };
 
     return (
-        <div>
+        <div className="wholemfthing">
             <h2>How was your stay?</h2>
             <input className='text-box'
                 placeholder="Leave your review here..."
@@ -58,42 +57,42 @@ export const CreateReviewModal = ({spotId}) => {
             />
             <div className="rating-input">
                 <div className={stars >= 1 ? "filled" : "empty"}
-                    onMouseEnter={() => { if (!disabled) setStars(1)} }
-                    onMouseLeave={() => { if (!disabled) setStars(stars)} }
-                    onClick={() => { if (!disabled) onChange(1)} }
+                    onMouseEnter={() => {  setStars(1)} }
+                    onMouseLeave={() => {  setStars(stars)} }
+                    onClick={() => {  onChange(1)} }
                 >
                     <i className="fa-solid fa-star"></i>
                 </div>
                 <div className={stars >= 2 ? "filled" : "empty"}
-                    onMouseEnter={() => { if (!disabled) setStars(2)} }
-                    onMouseLeave={() => { if (!disabled) setStars(stars)} }
-                    onClick={() => { if (!disabled) onChange(2)} }
+                    onMouseEnter={() => {  setStars(2)} }
+                    onMouseLeave={() => {  setStars(stars)} }
+                    onClick={() => {  onChange(2)} }
                 >
                     <i className="fa-solid fa-star"></i>
                 </div>
                 <div className={stars >= 3 ? "filled" : "empty"}
-                    onMouseEnter={() => { if (!disabled) setStars(3)} }
-                    onMouseLeave={() => { if (!disabled) setStars(stars)} }
-                    onClick={() => { if (!disabled) onChange(3)} }
+                    onMouseEnter={() => {  setStars(3)} }
+                    onMouseLeave={() => {  setStars(stars)} }
+                    onClick={() => {  onChange(3)} }
                 >
                     <i className="fa-solid fa-star"></i>
                 </div>
                 <div className={stars >= 4 ? "filled" : "empty"}
-                    onMouseEnter={() => { if (!disabled) setStars(4)} }
-                    onMouseLeave={() => { if (!disabled) setStars(stars)} }
-                    onClick={() => { if (!disabled) onChange(4)} }
+                    onMouseEnter={() => {  setStars(4)} }
+                    onMouseLeave={() => {  setStars(stars)} }
+                    onClick={() => {  onChange(4)} }
                 >
                     <i className="fa-solid fa-star"></i>
                 </div>
                 <div className={stars >= 5 ? "filled" : "empty"}
-                    onMouseEnter={() => { if (!disabled) setStars(5)} }
-                    onMouseLeave={() => { if (!disabled) setStars(stars)} }
-                    onClick={() => { if (!disabled) onChange(5)} }
+                    onMouseEnter={() => {  setStars(5)} }
+                    onMouseLeave={() => {  setStars(stars)} }
+                    onClick={() => {  onChange(5)} }
                 >
-                    <i className="fa-solid fa-star"></i>
+                    <i className="fa-solid fa-star"> Stars</i>
             </div>
             </div>
-            <button disabled={disabled} onClick={handleSubmit}>Submit Review</button>
+            <button disabled={revText.length >= 10 && stars > 0 ? false : true} onClick={handleSubmit}>Submit Review</button>
         </div>
     )
 

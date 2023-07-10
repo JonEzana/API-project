@@ -1,11 +1,27 @@
+.wholemfthing{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 .rating-input{
     display: flex;
     flex-direction: row;
 }
+.text-box{
+    width: 80%;
+    height: 90px;
+    margin-bottom: 20px;
+}
+placeholder{
+    text-align: left;
+    border: 1px solid red;
+}
+.rating-input{
+    margin-bottom: 20px;;
+}
 .rating-input .filled {
     color: rgb(230, 178, 24);
 }
-
 .rating-input .empty {
     color: grey;
-  }
+}
