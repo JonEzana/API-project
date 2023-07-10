@@ -1,15 +1,22 @@
 import React, {useEffect, useState} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { thunkAddImage, thunkCreateSpot, thunkGetCurrentUserSpots, thunkGetSingleSpot, thunkGetSpots, thunkUpdateSpot } from "../../store/spots";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import './CreateSpot.css'
 
 export const CreateSpot = ({spot, formType}) => {
     const dispatch = useDispatch();
     const history = useHistory();
-    const allspots = useSelector(state => state.spots.allSpots);
-    const currSpots = useSelector(state => state.spots.currentUserSpots);
-    const singleSpot = useSelector(state => state?.spots?.singleSpot)
+    const {spotid} = useParams();
+    console.log('useparams id', spotid)
+    console.log('spot prop', spot)
+    const newData = {}
+    spot ? newData.id = spot.id : newData.id = spotid;
+    spot && spot.SpotImages ? newData.SpotImages = spot.SpotImages : newData.SpotImages = [];
+    spot && spot.avgStarRating ? newData.avgStarRating = spot.avgStarRating : newData.avgStarRating = 0;
+    spot && spot.Owner ? newData.Owner = spot.Owner : newData.Owner = {};
+    spot && spot.numReviews ? newData.numReviews = spot.numReviews : newData.numReviews = 0;
+
     const [address, setAddress] = useState(spot ? spot.address : '');
     const [city, setCity] = useState(spot ? spot.city : '');
     const [state, setState] = useState(spot ? spot.state : '');
@@ -21,11 +28,12 @@ export const CreateSpot = ({spot, formType}) => {
     const [img, setImg] = useState('');
     const [hidden, setHidden] = useState('')
     const [validationObj, setValidationObj] = useState({});
+    const [errors, setErrors] = useState(null);
 
     useEffect(() => {
         const errObj = {};
         const extensions = ['png', 'jpg', 'jpeg'];
-
+        // const spot = dispatch(thunkGetSingleSpot(id));
         if (address.length < 1) errObj.address = "Address is required";
         if (city.length < 3) errObj.city = "City is required";
         if (!state.length) errObj.state = "State is required";
@@ -43,31 +51,32 @@ export const CreateSpot = ({spot, formType}) => {
 
     const handleSubmit = async(e) => {
         e.preventDefault();
-        let previewImage;
-        preview.url.length > 0 ? previewImage = preview.url : previewImage = null;
-        let data = { address, city, state, country, name, description, price, previewImage};
-        const imej = {url: img, preview: false}
         if (formType === "Update your Spot") {
-            const oldSpot = await dispatch(thunkGetSingleSpot(spot.id));
-            const currspots = await dispatch(thunkGetCurrentUserSpots());
-            const allSpots = await dispatch(thunkGetSpots());
-            const newData = {id: oldSpot.id};
-            oldSpot.address === address ? newData.address = address : newData.address = oldSpot.address;
-            oldSpot.city === city ? newData.city = city : newData.city = oldSpot.city;
-            oldSpot.state === state ? newData.state = state : newData.state = oldSpot.state;
-            oldSpot.country === country ? newData.country = country : newData.country = oldSpot.country;
-            oldSpot.name === name ? newData.name = name : newData.name = oldSpot.name;
-            oldSpot.description === description ? newData.description = description : newData.description = oldSpot.description;
-            oldSpot.price === price ? newData.price = price : newData.price = oldSpot.price;
-            oldSpot.previewImage === previewImage ? newData.previewImage = previewImage : newData.previewImage = oldSpot.previewImage;
+            const finalData = {...newData, address, city, state, country, name, description, price}
+            // spot && (spot["address"] === address) ? newData["address"] = spot["address"] : newData["address"] = address;
+            // spot && (spot["city"] === city) ? newData["city"] = spot["city"] : newData["city"] = city
+            // spot && (spot["state"] === state) ? newData["state"] = spot["state"] : newData["state"] = state
+            // spot && (spot["country"] === country) ? newData["country"] = spot["country"] : newData["country"] = country
+            // spot && (spot["name"] === name) ? newData["name"] = spot["name"] : newData["name"] = name
+            // spot && (spot["description"] === description) ? newData["description"] = spot["description"] : newData["description"] = description
+            // spot && (spot["price"] === price) ? newData["price"] = spot["price"] : newData["price"] = price;
 
-            const nuSpot = await dispatch(thunkUpdateSpot({...newData}));
-            if (nuSpot.id) {
-                console.log('UPdate Spot Successful, heres nuSpot: ', nuSpot)
-                await dispatch(thunkGetSingleSpot(nuSpot.id))
-                history.push(`/spots/current`);
+            //     .then((spot) => {console.log('SPOT????', spot)}).catch(async (res) =>  {const data = await res.json();
+            //     if (data && data.errors) {
+                //       setErrors(data.errors);
+                //     }
+                //     console.log(data.errors)
+                //   });
+            const updatedSpot = await dispatch(thunkUpdateSpot(finalData))
+            if (updatedSpot.id) {
+                const finalUpdate = await dispatch(thunkGetSingleSpot(updatedSpot.id))
+                history.push(`/spots/${finalUpdate.id}`);
             }
-        } else {
+            } else {
+            let previewImage;
+            preview.url.length > 0 ? previewImage = preview.url : previewImage = null;
+            let data = { address, city, state, country, name, description, price, previewImage};
+            const imej = {url: img, preview: false}
             const newSpot = await dispatch(thunkCreateSpot(data));
             const newnew = await dispatch(thunkGetSingleSpot(newSpot.id))
             if (newnew.id) {
@@ -77,26 +86,6 @@ export const CreateSpot = ({spot, formType}) => {
             }
         }
     };
-
-    // const onChangePrev = (e) => {
-    //     setPreview({url: e.target.value, status: true})
-    // };
-    // const onChangeImg = (e) => {
-    //     setImg(e.target.value)
-    // };
-
-    // const reset = () => {
-    //     setAddress('');
-    //     setCity('');
-    //     setState('');
-    //     setCountry('');
-    //     setName('');
-    //     setDescription('');
-    //     setPrice(0);
-    //     setPreview({url: '', status: false});
-    //     setImg('');
-    //     setValidationObj({});
-    // };
 
     return (
         <div className="spot-form">

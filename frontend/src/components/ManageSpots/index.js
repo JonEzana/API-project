@@ -12,7 +12,6 @@ export const ManageSpots = () => {
     const dispatch = useDispatch();
     const history = useHistory();
     const userSpots = useSelector(state => state.spots.currentUserSpots);
-    console.log('DATA: ', userSpots)
 
      useEffect(() => {
          dispatch(thunkGetCurrentUserSpots());
