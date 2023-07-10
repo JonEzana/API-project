@@ -65,7 +65,7 @@ export const CreateSpot = ({spot, formType}) => {
             if (nuSpot.id) {
                 console.log('UPdate Spot Successful, heres nuSpot: ', nuSpot)
                 await dispatch(thunkGetSingleSpot(nuSpot.id))
-                history.push(`/spots/${nuSpot.id}`);
+                history.push(`/spots/current`);
             }
         } else {
             const newSpot = await dispatch(thunkCreateSpot(data));
@@ -100,75 +100,80 @@ export const CreateSpot = ({spot, formType}) => {
 
     return (
         <div className="spot-form">
-            <h2>{formType ? formType : "Create a Spot"}</h2>
+            <h2>{formType ? formType : "Create a new Spot"}</h2>
             <p className="top">Where's your place located?</p>
-            <p className="bottom">Guests will only get your exact address once they booked a reservation.</p>
+            <p className="bottom">Guests will only get your exact address once they've booked a reservation.</p>
 
-            <label className="country full">
+        <form onSubmit={handleSubmit} className="form">
+            <label for="country">
                 Country
                 <br />
                 <input
+                id="country"
+                style={{width: "300px"}}
                     type='text'
                     value={country}
                     placeholder='Country'
                     onChange={e => setCountry(e.target.value)}
                 />
             </label>
-            {validationObj.country && <p className="errors">{validationObj.country}</p>}
+            {validationObj.country && <p className={!country.length && !address.length && !city.length && !state.length && !description.length && !name.length && !preview.url.length && !img.length ? "hidden errors" : "errors"}>{validationObj.country}</p>}
 
-            <form onSubmit={handleSubmit} >
-                <label className="address full">
+                <label for="stAddress">
                     Street Address
                     <br />
-                    <input className="input-box"
+                    <input id="stAddress"
                         type='text'
+                        style={{width: "300px"}}
                         value={address}
                         placeholder='Address'
                         onChange={e => setAddress(e.target.value)}
                     />
+                {validationObj.address && <p className={!country.length && !address.length && !city.length && !state.length && !description.length && !name.length && !preview.url.length && !img.length ? "hidden errors" : "errors"}>{validationObj.address}</p>}
                 </label>
-                {validationObj.address && <p className="errors">{validationObj.address}</p>}
 
-                <label className="city">
+                <label for="city">
                     City
                     <br />
-                    <input className="input-box"
+                    <input id="city"
                         type='text'
+                        style={{width: "300px"}}
                         value={city}
                         placeholder='City'
                         onChange={e => setCity(e.target.value)}
                     />
                 </label>
-                {validationObj.city && <p className="errors">{validationObj.city}</p>}
+                {validationObj.city && <p className={(!country.length && !address.length && !city.length && !state.length && !description.length && !name.length && !preview.url.length && !img.length) ? "hidden" : "errors"}>{validationObj.city}</p>}
 
-                <label className="state">
+                <label for="state">
                     State
                     <br />
-                    <input className="input-box"
+                    <input className="state"
+                        style={{width: "300px"}}
                         type='text'
                         value={state}
                         placeholder='STATE'
                         onChange={e => setState(e.target.value)}
                     />
                 </label>
-                {validationObj.state && <p className="errors">{validationObj.state}</p>}
+                {validationObj.state && <p className={!country.length && !address.length && !city.length && !state.length && !description.length && !name.length && !preview.url.length && !img.length ? "hidden errors" : "errors"}>{validationObj.state}</p>}
 
-                <hr />
+                <hr style={{background: "black", height: "1px", width: "100%" }}/>
 
                 <label className="description full">
                     <p className="top">Describe your place to guests</p>
                     <p className='bottom'>Mention the best features of your space, any special amenities like fast wifi or parking, and what you love about the neighborhood.</p>
                     <br />
-                    <textarea className="input-box"
+                    <textarea className="input-box descbox"
                         type='text'
                         value={description}
                         placeholder='Please write at least 30 characters'
                         onChange={e => setDescription(e.target.value)}
                         />
                 </label>
-                {validationObj.description && <p className="errors">{validationObj.description}</p>}
+                {validationObj.description && <p className={!country.length && !address.length && !city.length && !state.length && !description.length && !name.length && !preview.url.length && !img.length ? "hidden errors" : "errors"}>{validationObj.description}</p>}
 
-                <hr />
+                <hr style={{background: "black", height: "1px", width: "100%" }}/>
 
                 <label className="name">
                     <p className="top">Create a title for your spot</p>
@@ -181,28 +186,28 @@ export const CreateSpot = ({spot, formType}) => {
                         onChange={e => setName(e.target.value)}
                         />
                 </label>
-                {validationObj.name && <p className="errors">{validationObj.name}</p>}
+                {validationObj.name && <p className={!country.length && !address.length && !city.length && !state.length && !description.length && !name.length && !preview.url.length && !img.length ? "hidden errors" : "errors"}>{validationObj.name}</p>}
 
-                <hr />
+                <hr style={{background: "black", height: "1px", width: "100%" }}/>
 
                 <label className="price">
                     <p className="top">Set a base price for your spot</p>
                     <p className="bottom">Competitive pricing can help your listing stand out and rank higher in search results.</p>
                 <br />
-                    <input className="input-box"
+                    <input className="input-box pricebox"
                         type='number'
                         value={price}
                         placeholder='Price per night (USD)'
                         onChange={e => setPrice(e.target.value)}
                         />
                 </label>
-                {validationObj.price && <p className="errors">{validationObj.price}</p>}
+                {validationObj.price && <p className={!country.length && !address.length && !city.length && !state.length && !description.length && !name.length && !preview.url.length && !img.length ? "hidden errors" : "errors"}>{validationObj.price}</p>}
 
-                <hr />
-                <div className={hidden ? "hidden" : ""}>
+                <hr style={{background: "black", height: "1px", width: "100%" }}/>
+                <div className={hidden ? "hidden" : "imageurls"}>
                     <label className="img">
-                        <p className="top">Set a base price for your spot</p>
-                        <p className="bottom">Competitive pricing can help your listing stand out and rank higher in search results.</p>
+                        <p className="top">Liven up your spot with photos</p>
+                        <p className="bottom">Submit a link to at least one photo to publish your spot.</p>
                     <br />
                         <input className="input-box"
                             type='text'
@@ -216,30 +221,28 @@ export const CreateSpot = ({spot, formType}) => {
                             placeholder='Image URL'
                             onChange={(e) => setImg(e.target.value)}
                             /> <br/>
-                        {/* <input className="input-box"
-                            type='url'
-                            value={img}
+
+                            <input className="input-box"
+                            type='text'
+                            value=""
                             placeholder='Image URL'
-                            onChange={e => setImg(e.target.value)}
-                            /><br/>
-                        <input className="input-box"
-                            type='url'
-                            value={img}
+                            /> <br/>
+                            <input className="input-box"
+                            type='text'
+                            value=""
                             placeholder='Image URL'
-                            onChange={e => setImg(e.target.value)}
-                            /><br/>
-                        <input className="input-box"
-                            type='url'
-                            value={img}
+                            /> <br/>
+                            <input className="input-box"
+                            type='text'
+                            value=""
                             placeholder='Image URL'
-                            onChange={e => setImg(e.target.value)}
-                            /> */}
+                            /> <br/>
                     </label>
-                {validationObj.previewImg && <p className="errors">{validationObj.previewImg}</p>}
-                {(validationObj.previewUrl || validationObj.img) && <p className="errors">{validationObj.previewUrl}</p>}
+                {validationObj.previewImg && <p className={!country.length && !address.length && !city.length && !state.length && !description.length && !name.length && !preview.url.length && !img.length ? "hidden errors" : "errors"}>{validationObj.previewImg}</p>}
+                {(validationObj.previewUrl || validationObj.img) && <p className={!country.length && !address.length && !city.length && !state.length && !description.length && !name.length && !preview.url.length && !img.length ? "hidden errors" : "errors"}>{validationObj.previewUrl}</p>}
+                <hr style={{background: "black", height: "1px", width: "100%" }}/>
                 </div>
-                <hr />
-                <button type="submit">{formType ? "Update Spot" : "Create Spot"}</button>
+                <button className="finalizeBtn" type="submit">{formType ? "Update Spot" : "Create Spot"}</button>
             </form>
         </div>
     )

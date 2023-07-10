@@ -1,16 +1,56 @@
 .errors{
     color: red;
+    margin-top: 10px;
+    text-align:center;
 }
 
 .spot-form{
-    margin: 70px 33%;
-    display: grid;
+    margin: 70px 33% 0 33%;
 }
-
-.full {
+label{
     width: 100%;
+    font-size: 12px;
+}
+h2{
+    font-weight: 400;
+}
+.top{
+    font-size: 18px;
+    margin-bottom: -7px;
+}
+.bottom{
+    font-size: 13px;
+}
+.description{
+    margin-top: -35px;
+    margin-bottom: -10px;
+}
+.input-box{
+    width: 300px;
+}
+.descbox{
+    height: 70px;
+}
+.name{
+    margin-top: -30px;
 }
 
+.finalizeBtn{
+    margin-top: -10px;
+    color: white;
+    background-color: rgb(223, 70, 88);
+    border: 2px solid black;
+    box-shadow: 3px 3px 3px black;
+}
+.finalizeBtn:hover{
+    background-color: rgb(141, 35, 46);
+}
+.price{
+    margin-top: -30px;
+}
+.imageurls{
+    margin-top: -30px;
+}
 .hidden{
     visibility: hidden;
 }

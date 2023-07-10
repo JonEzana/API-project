@@ -1,13 +1,18 @@
 .spots-container{
     display: grid;
     grid-template-columns: repeat(4, 25%);
-    margin: 70px 50px;
+    margin: 100px 50px;
     font-family:'Times New Roman', Times, serif;
 }
 
 .spot{
     padding: 10px;
     margin-bottom: -10px;
+    font-size: 14px;
+}
+.ratings{
+    font-size: 12px;
+    margin-top: -10px;
 }
 .tooltip{
     position: relative;
@@ -19,6 +24,7 @@
 .spot-img{
     width:100%;
     height:60%;
+    border-radius: 8px;
 }
 .loc-price{
     display: flex;
@@ -27,4 +33,24 @@
 }
 .spot:hover{
     cursor: pointer;
+}
+
+[data-tooltip] {
+    position: relative;
+}
+[data-tooltip]::before {
+    width: 150px;
+    background: #FFF;
+    border-radius: 5px;
+    content: attr(data-tooltip);
+    text-align: center;
+    left: 25%;
+    z-index: 1;
+    opacity: 0;
+    position: absolute;
+    padding: 10px;
+    top: -50px;
+}
+[data-tooltip]:hover::before {
+    opacity: 1;
 }

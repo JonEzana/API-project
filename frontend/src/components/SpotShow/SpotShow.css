@@ -1,15 +1,139 @@
-.main{
-    margin: 70px 0 9% 9%;
+._main_{
+    display: flex;
+    flex-direction: column;
+    max-width: 1000px;
+    margin: 55px 6% 0 6%;
+    font-family:'Times New Roman', Times, serif;
 }
 
 .img-container{
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(auto, minmax(180px));
+    display: grid;
+    grid-template-columns: 50% 25% 25%;
+    grid-template-rows: 50% 50%;
+    grid-template-areas:
+    "a b c"
+    "a d e";
+    height: 300px;
+    gap: 5px;
+}
+.img{
+    height: 100%;
+    width: 100%;
+    border-radius: 5px;
+}
+._1{
+    grid-area: a;
+}
+._2{
+    grid-area: b;
+}
+._3{
+    grid-area: c;
+}
+._4{
+    grid-area: d;
+}
+._5{
+    grid-area: e;
+}
+
+/* .img-container{
+    display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  grid-template-rows: repeat(6, 200px);
+  grid-gap: 1rem;
+  grid-auto-flow: dense;
+
+  grid-column: span 2;
+  grid-row: span 2;
+} */
+
+
+
+
+
+.spot-general-info{
+    display: grid;
+    grid-template-columns: 66% 34%;;
+    grid-template-rows: 1fr;
+    grid-template-areas:
+    'one two';
+    /* border: red 1px solid; */
+    height: 200px;
+    margin-top: 15px;
+}
+.host-desc{
+    grid-area: one;
+    margin-top: -25px;
+}
+.hostName{
+    font-size: 25px;
+    font-weight: 100;
+    margin-bottom: -11px;
+}
+.reserve{
+    grid-area: two;
+    border: 2px solid black;
+    border-radius: 1em;
+    height: 130px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+}
+.price-star-rev{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 13px;
+    margin: 0 5% 0 5%;
+}
+.fa-sharp{
+    margin-top: 22px;
+    font-size: 13px;
+}
+.reserve-btn{
+   display: flex;
+   justify-content: center;
+}
+.BUTTON{
+    width: 90%;
+    height: 40px;
+    background-color: rgb(223, 70, 88);
+    color: white;
+    box-shadow: 3px 3px 3px black;
+}
+.BUTTON:hover{
+    background-color: rgb(122, 15, 28);
+    cursor: pointer;
+}
+.star-rev{
+    margin-bottom: 20px;
 }
 .rev-btn{
-    border: 1px solid red;
-    background-color: red;
+   margin: 15px 0 15px 0;
+}
+.hello{
+    font-size: 18px;
+}
+.individual{
+    /* border: 1px red solid; */
+}
+.name{
+    margin-top: 15px;
+    font-size: 20px;
+    font-weight: 400;
+}
+.date{
+    font-size: 14px;
+    /* border: 1px blue solid; */
+    margin-top: -15px;
+    font-weight: 100;
+}
+.delete-btn:hover{
+    cursor: pointer;
 }
 .hidden{
     visibility: hidden;
 }
+
+/* grid-area: grid-row-start / grid-column-start / grid-row-end / grid-column-end | itemname; */

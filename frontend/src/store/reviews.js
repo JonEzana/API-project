@@ -10,7 +10,9 @@ export const actionCreateReview = (review) => (console.log('IN ACTION CREATOR'),
     type: CREATE,
     review
 });
-export const thunkCreateReview = (data) => async (dispatch) => {
+export const thunkCreateReview = (data) => async (dispatch, getState) => {
+    const state = getState();
+    const user = state.session.user;
     const {userId, spotId, revText, stars} = data;
     const res = await csrfFetch(`/api/spots/${spotId}/reviews`, {
         method: "POST",
@@ -18,15 +20,16 @@ export const thunkCreateReview = (data) => async (dispatch) => {
         body: JSON.stringify({review: revText, stars: stars})
     });
     if (res.ok) {
-        console.log('Create thunk - res.ok')
         const review = await res.json();
-        console.log('Create thunk - in success condtl', review)
+        if (review['User'] === undefined) {
+            review['User'] = user;
+        }
         dispatch(actionCreateReview(review));
         return review;
     } else {
         console.log('Create thunk - in error condtl')
         const error = await res.json();
-        return error.errors;
+        return error;
     }
 }
 

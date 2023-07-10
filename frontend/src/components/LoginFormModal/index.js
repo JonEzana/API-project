@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as sessionActions from "../../store/session";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
@@ -10,6 +10,7 @@ function LoginFormModal() {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
+  const [disabled, setDisabled] = useState(true);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -24,34 +25,54 @@ function LoginFormModal() {
       });
   };
 
+  const handleDemo = (e) => {
+    e.preventDefault();
+    setErrors({});
+    return dispatch(sessionActions.thunkLogin({ credential: "Demo-lition", password: "password" }))
+      .then(closeModal)
+      .catch(async (res) => {
+        const data = await res.json();
+        if (data && data.errors) {
+          setErrors(data.errors);
+        }
+      });
+  }
+
+  useEffect(() => {
+    if (credential.length >= 4 && password.length >= 6) setDisabled(false);
+  }, [credential, password])
+
   return (
-    <>
+    <div className="loginmodal">
       <h1>Log In</h1>
       <form onSubmit={handleSubmit}>
-        <label>
-          Username or Email
+        <label className="label">
           <input
+          className="input"
             type="text"
+            placeholder="Username or Email"
             value={credential}
             onChange={(e) => setCredential(e.target.value)}
             required
           />
         </label>
-        <label>
-          Password
+        <label className="label">
           <input
+          className="input"
             type="password"
+            placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
         </label>
         {errors.credential && (
-          <p>{errors.credential}</p>
+          <p className="valErr">{errors.credential}</p>
         )}
-        <button type="submit">Log In</button>
+        <button disabled={disabled} className={disabled ? "submit" : "submit enabled"} type="submit">Log In</button>
+        <button className="demoUser" onClick={handleDemo}>Log in as Demo User</button>
       </form>
-    </>
+    </div>
   );
 }
 
