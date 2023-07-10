@@ -14,7 +14,9 @@ export const SpotShow = () => {
     const {spotId} = useParams();
     const user = useSelector(state => state.session.user);
     const spot = useSelector(state => state.spots.singleSpot);
+    console.log('SpotShow, spot.....', spot)
     const reviewData = useSelector(state => state.reviews.spot);
+
     useEffect(() => {
         dispatch(thunkGetSingleSpot(spotId));
         // dispatch(thunkRestoreUser());
@@ -22,7 +24,7 @@ export const SpotShow = () => {
         dispatch(thunkReviewsByUser());
     }, [dispatch]);
 
-    if (!Object.values(user).length || !Object.values(spot).length || !spotId) return null;
+    if ( !Object.values(spot).length || !spotId) return null;
 
     let reviews = Object.values(reviewData).filter(rev => rev.spotId == spot.id);
     const userReviews = reviews.filter(rev => rev.userId == user.id).length;

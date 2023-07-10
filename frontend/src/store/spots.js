@@ -107,7 +107,10 @@ export const actionUpdateSpot = (spot) => ({
     type: UPDATE_SPOT,
     payload: spot
 });
-export const thunkUpdateSpot = (spot) => async (dispatch) => {
+export const thunkUpdateSpot = (spot) => async (dispatch, getState) => {
+    const state = getState();
+    const currentSpot = state.spots.singleSpot;
+    console.log('Thunk, currentSpot...', currentSpot)
     const res = await csrfFetch(`/api/spots/${spot.id}`, {
         method: "PUT",
         headers: {"Content-Type": "application/json"},
@@ -118,6 +121,7 @@ export const thunkUpdateSpot = (spot) => async (dispatch) => {
         dispatch(actionUpdateSpot(spt));
         return spt;
     } else {
+        console.log('MISSION FAILED')
         const error = await res.json();
         return error;
     }
@@ -170,17 +174,16 @@ export default function spotsReducer(state = initialState, action) {
             return newState;
         }
         case ADD_IMG: {
-            const newState = {...state, singleSpot: {}, allSpots: {}, currentUserSpots: {}};
+            const newState = {...state, singleSpot: {}, allSpots: {...state.allSpots}, currentUserSpots: {}};
             const Spot = action.payload.spot;
             Spot['SpotImages'].push(action.payload.image);
             newState.singleSpot = Spot;
             return newState;
         }
         case UPDATE_SPOT: {
-            const newState = {...state, allSpots: {}, singleSpot: {}, currentUserSpots: {...state.currentUserSpots}};
-            newState.singleSpot[action.payload.id] = action.payload;
-            newState.allSpots[action.payload.id] = action.payload;
-            newState.currentUserSpots[action.payload.id] = action.payload;
+            const newState = {...state, allSpots: {...state.allSpots}, singleSpot: {...state.singleSpot}, currentUserSpots: {...state.currentUserSpots}};
+            newState.singleSpot = action.payload;
+            console.log('update reducer, .......', newState.singleSpot)
             return newState;
         }
         case DELETE_SPOT: {

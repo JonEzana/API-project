@@ -25,11 +25,11 @@ export const DeleteReviewModal = ({id}) => {
     };
 
     return (
-        <div>
-            <h2>Confirm Delete</h2>
-            <h4>Are you sure you want to remove this spot from the listings?</h4>
-            <button onClick={yes}>Yes (Delete Review)</button>
-            <button onClick={closeModal}>No (Keep Review)</button>
+        <div className="delete-modal">
+             <p className="confirmation">Confirm Delete</p>
+             <p className="double-conf">Are you sure you want to delete this review?</p>
+            <button className="delete btn" onClick={yes}>Yes (Delete Review)</button>
+            <button className="keep btn" onClick={closeModal}>No (Keep Review)</button>
         </div>
     )
 }
