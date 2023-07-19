@@ -296,33 +296,37 @@ router.post('', requireAuth, validateSpotCreation, async (req, res) => {
 
 // Edit a spot
 router.put('/:spotId', requireAuth, validateSpotCreation, async (req, res) => {
-    let spot = await Spot.findByPk(req.params.spotId)
+    let spot = await Spot.findByPk(req.params.spotId);
+
 
     if (!spot) {
-        res.statusCode = 404;
-        res.json({message: "Spot couldn't be found"});
+        return res.status(404).json({message: "Spot couldn't be found"});
     }  else {
-        spot = spot.toJSON();
-        // AUTHORIZATION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // spot = spot.toJSON();
         if (req.user.id !== spot.ownerId) {
-            res.statusCode = 403;
-            res.json({message: "Forbidden"})
+            return res.status(403).json({message: "Forbidden"})
         } else {
-            spot.address = req.body.address;
-            spot.city = req.body.city,
-            spot.state = req.body.state,
-            spot.country = req.body.country,
-            spot.lat = req.body.lat,
-            spot.lng = req.body.lng,
-            spot.name = req.body.name,
-            spot.description = req.body.description,
-            spot.price = req.body.price;
+            // spot.address = req.body.address;
+            // spot.city = req.body.city,
+            // spot.state = req.body.state,
+            // spot.country = req.body.country,
+            // spot.lat = req.body.lat,
+            // spot.lng = req.body.lng,
+            // spot.name = req.body.name,
+            // spot.description = req.body.description,
+            // spot.price = req.body.price;
             // await spot.save();
-            res.statusCode = 200;
-            res.json(spot)
+            // res.statusCode = 200;
+            // return res.json(spot)
+            const {address, city, state, country, lat, lng, name, description, price} = req.body;
+            const updatedSpot = await spot.update({address, city, state, country, lat, lng, name, description, price})
+            if(updatedSpot) {
+                console.log('LINE 325...', updatedSpot)
+                return res.status(200).json(updatedSpot)
+            } else return res.status(500).json({message: "Update failed"})
         }
     }
-})
+});
 
 // Delete a spot -- AUTHORIZATION
 router.delete('/:spotId', requireAuth, async (req, res) => {

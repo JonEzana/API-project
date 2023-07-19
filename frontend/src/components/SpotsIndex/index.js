@@ -27,7 +27,7 @@ export const SpotsIndex = () => {
         <>
             <div className='spots-container'>
                 {sortedSpots.map(spot => (
-                    <div className='spot' title={`${spot.name}`} onClick={() => currentUser ? history.push(`/spots/${spot.id}`) : window.alert('Must be logged in to view Spot details')} key={spot.id} >
+                    <div className='spot' title={`${spot.name}`} onClick={() => history.push(`/spots/${spot.id}`)} key={spot.id} >
 
                         <span data-tooltip={spot.name} data-position="right">
 

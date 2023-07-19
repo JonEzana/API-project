@@ -13,26 +13,28 @@ export const SpotShow = () => {
     const dispatch = useDispatch();
     const {spotId} = useParams();
     const user = useSelector(state => state.session.user);
-    const spot = useSelector(state => state.spots.singleSpot);
-    console.log('SpotShow, spot.....', spot)
     const reviewData = useSelector(state => state.reviews.spot);
+    const spot = useSelector(state => state.spots.singleSpot);
+    console.log('SpotShow, user...', user)
 
     useEffect(() => {
         dispatch(thunkGetSingleSpot(spotId));
-        // dispatch(thunkRestoreUser());
         dispatch(thunkReviewsBySpot(spotId));
-        dispatch(thunkReviewsByUser());
+        if (user) {
+            dispatch(thunkReviewsByUser());
+        }
     }, [dispatch]);
 
     if ( !Object.values(spot).length || !spotId) return null;
 
     let reviews = Object.values(reviewData).filter(rev => rev.spotId == spot.id);
-    const userReviews = reviews.filter(rev => rev.userId == user.id).length;
-    console.log('LINE 29 USERREVIEWS.........SEFW>.....', userReviews)
+
+    let userReviews;
+    user ? userReviews = reviews.filter(rev => rev.userId == user.id).length : userReviews = [];
+
     const {name, city, state, country, SpotImages, description, price, numReviews, avgStarRating, Owner} = spot;
     const {firstName, lastName, id} = Owner;
-    const sortedReviews = reviews.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-    console.log('SORTED REVIEWS......', sortedReviews)
+    const sortedReviews = reviews.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     let imgClass = 0;
     const feature = () => {
         window.alert('Feature Coming Soon...');
@@ -61,8 +63,8 @@ export const SpotShow = () => {
                         { numReviews === 1 && <i className="fa-sharp fa-solid fa-star">{avgStarRating ? avgStarRating.toFixed(1) : "New"} • 1 review </i>}
                         { numReviews === 0 && <i className="fa-sharp fa-solid fa-star"> New </i>}
                     </div>
-                    <div class="reserve-btn">
-                        <button class="BUTTON" onClick={feature}>Reserve</button>
+                    <div className="reserve-btn">
+                        <button className="BUTTON" onClick={feature}>Reserve</button>
                     </div>
                 </div>
             </div>
@@ -73,7 +75,7 @@ export const SpotShow = () => {
                 { numReviews > 1 && <i className="hello fa-sharp fa-solid fa-star">{avgStarRating ? avgStarRating.toFixed(1) : "New"} • {numReviews} reviews </i>}
                 { numReviews === 1 && <i className="hello fa-sharp fa-solid fa-star">{avgStarRating ? avgStarRating.toFixed(1) : "New"} • 1 review </i>}
                 { numReviews === 0 && <i className="hello fa-sharp fa-solid fa-star">New</i>}
-            <div className={(id == user.id || userReviews > 0) ? "hidden rev-btn" : "rev-btn"}>
+            <div className={(!user || ((user && id == user.id) || (user && userReviews > 0))) ? "hidden rev-btn" : "rev-btn"}>
                 <OpenModalButton
                         style={{background: "grey", color: "white", boxShadow: "3px 3px 3px black"}}
                         buttonText='Post Your Review'

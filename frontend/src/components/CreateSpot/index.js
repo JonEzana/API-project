@@ -1,21 +1,16 @@
 import React, {useEffect, useState} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { thunkAddImage, thunkCreateSpot, thunkGetCurrentUserSpots, thunkGetSingleSpot, thunkGetSpots, thunkUpdateSpot } from "../../store/spots";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import './CreateSpot.css'
 
 export const CreateSpot = ({spot, formType}) => {
     const dispatch = useDispatch();
     const history = useHistory();
-    const {spotid} = useParams();
-    console.log('useparams id', spotid)
-    console.log('spot prop', spot)
     const newData = {}
-    spot ? newData.id = spot.id : newData.id = spotid;
-    spot && spot.SpotImages ? newData.SpotImages = spot.SpotImages : newData.SpotImages = [];
-    spot && spot.avgStarRating ? newData.avgStarRating = spot.avgStarRating : newData.avgStarRating = 0;
-    spot && spot.Owner ? newData.Owner = spot.Owner : newData.Owner = {};
-    spot && spot.numReviews ? newData.numReviews = spot.numReviews : newData.numReviews = 0;
+    if (spot && spot.id) {
+        newData.id = spot.id;
+    }
 
     const [address, setAddress] = useState(spot ? spot.address : '');
     const [city, setCity] = useState(spot ? spot.city : '');
@@ -28,7 +23,6 @@ export const CreateSpot = ({spot, formType}) => {
     const [img, setImg] = useState('');
     const [hidden, setHidden] = useState('')
     const [validationObj, setValidationObj] = useState({});
-    const [errors, setErrors] = useState(null);
 
     useEffect(() => {
         const errObj = {};
@@ -47,42 +41,33 @@ export const CreateSpot = ({spot, formType}) => {
         if (!extensions.includes(img.split('.').slice(-1)[0])) errObj.img = "Image URLs must end in .png, .jpg, or .jpeg"
 
         setValidationObj(errObj);
-    }, [address, city, state, country, name, description, price, preview])
+    }, [address, city, state, country, name, description, price, preview]);
 
     const handleSubmit = async(e) => {
         e.preventDefault();
         if (formType === "Update your Spot") {
             const finalData = {...newData, address, city, state, country, name, description, price}
-            // spot && (spot["address"] === address) ? newData["address"] = spot["address"] : newData["address"] = address;
-            // spot && (spot["city"] === city) ? newData["city"] = spot["city"] : newData["city"] = city
-            // spot && (spot["state"] === state) ? newData["state"] = spot["state"] : newData["state"] = state
-            // spot && (spot["country"] === country) ? newData["country"] = spot["country"] : newData["country"] = country
-            // spot && (spot["name"] === name) ? newData["name"] = spot["name"] : newData["name"] = name
-            // spot && (spot["description"] === description) ? newData["description"] = spot["description"] : newData["description"] = description
-            // spot && (spot["price"] === price) ? newData["price"] = spot["price"] : newData["price"] = price;
-
-            //     .then((spot) => {console.log('SPOT????', spot)}).catch(async (res) =>  {const data = await res.json();
-            //     if (data && data.errors) {
-                //       setErrors(data.errors);
-                //     }
-                //     console.log(data.errors)
-                //   });
-            const updatedSpot = await dispatch(thunkUpdateSpot(finalData))
+            const updatedSpot = await dispatch(thunkUpdateSpot(finalData));
             if (updatedSpot.id) {
-                const finalUpdate = await dispatch(thunkGetSingleSpot(updatedSpot.id))
-                history.push(`/spots/${finalUpdate.id}`);
-            }
+                const updatedSpotDetails = await dispatch(thunkGetSingleSpot(updatedSpot.id))
+                history.push(`/spots/${updatedSpotDetails.id}`);
             } else {
+                console.log('LINE 61...failed update', updatedSpot)
+            }
+        } else {
             let previewImage;
             preview.url.length > 0 ? previewImage = preview.url : previewImage = null;
             let data = { address, city, state, country, name, description, price, previewImage};
             const imej = {url: img, preview: false}
             const newSpot = await dispatch(thunkCreateSpot(data));
-            const newnew = await dispatch(thunkGetSingleSpot(newSpot.id))
-            if (newnew.id) {
-                const nooo = await dispatch(thunkAddImage(imej, newnew));
-                await dispatch(thunkGetSingleSpot(nooo.id))
-                history.push(`/spots/${newnew.id}`);
+            if (newSpot.id) {
+
+                const newnew = await dispatch(thunkGetSingleSpot(newSpot.id))
+                if (newnew.id) {
+                    const nooo = await dispatch(thunkAddImage(imej, newnew));
+                    await dispatch(thunkGetSingleSpot(nooo.id))
+                    history.push(`/spots/${newnew.id}`);
+                }
             }
         }
     };
@@ -94,7 +79,7 @@ export const CreateSpot = ({spot, formType}) => {
             <p className="bottom">Guests will only get your exact address once they've booked a reservation.</p>
 
         <form onSubmit={handleSubmit} className="form">
-            <label for="country">
+            <label htmlFor="country">
                 Country
                 <br />
                 <input
@@ -106,9 +91,9 @@ export const CreateSpot = ({spot, formType}) => {
                     onChange={e => setCountry(e.target.value)}
                 />
             </label>
-            {validationObj.country && <p className={!country.length && !address.length && !city.length && !state.length && !description.length && !name.length && !preview.url.length && !img.length ? "hidden errors" : "errors"}>{validationObj.country}</p>}
+            {validationObj.country && <p className="errors">{validationObj.country}</p>}
 
-                <label for="stAddress">
+                <label htmlFor="stAddress">
                     Street Address
                     <br />
                     <input id="stAddress"
@@ -118,10 +103,10 @@ export const CreateSpot = ({spot, formType}) => {
                         placeholder='Address'
                         onChange={e => setAddress(e.target.value)}
                     />
-                {validationObj.address && <p className={!country.length && !address.length && !city.length && !state.length && !description.length && !name.length && !preview.url.length && !img.length ? "hidden errors" : "errors"}>{validationObj.address}</p>}
+                {validationObj.address && <p className="errors">{validationObj.address}</p>}
                 </label>
 
-                <label for="city">
+                <label htmlFor="city">
                     City
                     <br />
                     <input id="city"
@@ -134,7 +119,7 @@ export const CreateSpot = ({spot, formType}) => {
                 </label>
                 {validationObj.city && <p className={(!country.length && !address.length && !city.length && !state.length && !description.length && !name.length && !preview.url.length && !img.length) ? "hidden" : "errors"}>{validationObj.city}</p>}
 
-                <label for="state">
+                <label htmlFor="state">
                     State
                     <br />
                     <input className="state"
@@ -145,7 +130,7 @@ export const CreateSpot = ({spot, formType}) => {
                         onChange={e => setState(e.target.value)}
                     />
                 </label>
-                {validationObj.state && <p className={!country.length && !address.length && !city.length && !state.length && !description.length && !name.length && !preview.url.length && !img.length ? "hidden errors" : "errors"}>{validationObj.state}</p>}
+                {validationObj.state && <p className="errors">{validationObj.state}</p>}
 
                 <hr style={{background: "black", height: "1px", width: "100%" }}/>
 
@@ -160,7 +145,7 @@ export const CreateSpot = ({spot, formType}) => {
                         onChange={e => setDescription(e.target.value)}
                         />
                 </label>
-                {validationObj.description && <p className={!country.length && !address.length && !city.length && !state.length && !description.length && !name.length && !preview.url.length && !img.length ? "hidden errors" : "errors"}>{validationObj.description}</p>}
+                {validationObj.description && <p className="errors">{validationObj.description}</p>}
 
                 <hr style={{background: "black", height: "1px", width: "100%" }}/>
 
@@ -175,7 +160,7 @@ export const CreateSpot = ({spot, formType}) => {
                         onChange={e => setName(e.target.value)}
                         />
                 </label>
-                {validationObj.name && <p className={!country.length && !address.length && !city.length && !state.length && !description.length && !name.length && !preview.url.length && !img.length ? "hidden errors" : "errors"}>{validationObj.name}</p>}
+                {validationObj.name && <p className="errors">{validationObj.name}</p>}
 
                 <hr style={{background: "black", height: "1px", width: "100%" }}/>
 
@@ -190,7 +175,7 @@ export const CreateSpot = ({spot, formType}) => {
                         onChange={e => setPrice(e.target.value)}
                         />
                 </label>
-                {validationObj.price && <p className={!country.length && !address.length && !city.length && !state.length && !description.length && !name.length && !preview.url.length && !img.length ? "hidden errors" : "errors"}>{validationObj.price}</p>}
+                {validationObj.price && <p className="errors">{validationObj.price}</p>}
 
                 <hr style={{background: "black", height: "1px", width: "100%" }}/>
                 <div className={hidden ? "hidden" : "imageurls"}>
@@ -227,8 +212,8 @@ export const CreateSpot = ({spot, formType}) => {
                             placeholder='Image URL'
                             /> <br/>
                     </label>
-                {validationObj.previewImg && <p className={!country.length && !address.length && !city.length && !state.length && !description.length && !name.length && !preview.url.length && !img.length ? "hidden errors" : "errors"}>{validationObj.previewImg}</p>}
-                {(validationObj.previewUrl || validationObj.img) && <p className={!country.length && !address.length && !city.length && !state.length && !description.length && !name.length && !preview.url.length && !img.length ? "hidden errors" : "errors"}>{validationObj.previewUrl}</p>}
+                {validationObj.previewImg && <p className={formType ? "hidden" : "errors"}>{validationObj.previewImg}</p>}
+                {(validationObj.previewUrl || validationObj.img) && <p className={formType ? "hidden" : "errors"}>{validationObj.previewUrl}</p>}
                 <hr style={{background: "black", height: "1px", width: "100%" }}/>
                 </div>
                 <button className="finalizeBtn" type="submit">{formType ? "Update Spot" : "Create Spot"}</button>

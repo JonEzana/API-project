@@ -28,7 +28,7 @@ export const ManageSpots = () => {
             </div>
             <div className='spots-container'>
             {spots.map(spot => (
-                <div className='spot' title={`${spot.name}`}  >
+                <div className='spot' title={`${spot.name}`} key={spot.id} >
                     <span onClick={() => history.push(`/spots/${spot.id}`)} className="individualSpot">
                         <img  className="spot-img" src={spot.previewImage ? `${spot.previewImage}` : 'https://clipart-library.com/img/1643520.jpg'} alt={spot.name}></img>
                         <div className="loc-price">

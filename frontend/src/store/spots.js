@@ -35,6 +35,7 @@ export const thunkGetSingleSpot = (spotId) => async (dispatch) => {
     const res = await fetch(`/api/spots/${spotId}`);
     if (res.ok) {
         const spot = await res.json();
+        // console.log('GET SINGLE SPOT THUNK, ', spot)
         dispatch(actionGetSingleSpot(spot));
         return spot;
     } else {
@@ -107,21 +108,17 @@ export const actionUpdateSpot = (spot) => ({
     type: UPDATE_SPOT,
     payload: spot
 });
-export const thunkUpdateSpot = (spot) => async (dispatch, getState) => {
-    const state = getState();
-    const currentSpot = state.spots.singleSpot;
-    console.log('Thunk, currentSpot...', currentSpot)
-    const res = await csrfFetch(`/api/spots/${spot.id}`, {
+export const thunkUpdateSpot = (spotData) => async (dispatch) => {
+    const res = await csrfFetch(`/api/spots/${spotData.id}`, {
         method: "PUT",
         headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(spot)
+        body: JSON.stringify(spotData)
     });
     if (res.ok) {
-        const spt = await res.json();
-        dispatch(actionUpdateSpot(spt));
-        return spt;
+        const spot = await res.json();
+        dispatch(actionUpdateSpot(spot));
+        return spot;
     } else {
-        console.log('MISSION FAILED')
         const error = await res.json();
         return error;
     }
@@ -162,7 +159,7 @@ export default function spotsReducer(state = initialState, action) {
             return {...state, singleSpot: action.spot, allSpots: {...state.allSpots}, currentUserSpots: {}};
         }
         case GET_CURRENT_SPOTS: {
-            const newState = {...state, allSpots: {...state.allSpots}, singleSpot: {...state.singleSpot}, currentUserSpots: {...state.currentUserSpots}};
+            const newState = {...state, allSpots: {...state.allSpots}, singleSpot: {...state.singleSpot}, currentUserSpots: {}};
             action.spots.Spots.forEach(spot => {
                 newState.currentUserSpots[spot.id] = spot;
             });
@@ -181,9 +178,13 @@ export default function spotsReducer(state = initialState, action) {
             return newState;
         }
         case UPDATE_SPOT: {
-            const newState = {...state, allSpots: {...state.allSpots}, singleSpot: {...state.singleSpot}, currentUserSpots: {...state.currentUserSpots}};
-            newState.singleSpot = action.payload;
-            console.log('update reducer, .......', newState.singleSpot)
+            const newState = {
+                ...state,
+                allSpots: {...state.allSpots, [action.payload.id]: action.payload},
+                singleSpot: {},
+                currentUserSpots: {...state.currentUserSpots, [action.payload.id]: action.payload}
+            };
+            console.log('Reducer - update case, newState....', newState)
             return newState;
         }
         case DELETE_SPOT: {
