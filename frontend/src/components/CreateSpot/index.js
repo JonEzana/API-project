@@ -19,15 +19,18 @@ export const CreateSpot = ({spot, formType}) => {
     const [name, setName] = useState(spot ? spot.name : '');
     const [description, setDescription] = useState(spot ? spot.description : '');
     const [price, setPrice] = useState(spot ? spot.price : 0);
-    const [preview, setPreview] = useState({url: '', status: true});
+    const [preview, setPreview] = useState('');
     const [img, setImg] = useState('');
-    const [hidden, setHidden] = useState('')
+    const [img2, setImg2] = useState('');
+    const [img3, setImg3] = useState('');
+    const [img4, setImg4] = useState('');
+    const [hidden, setHidden] = useState('');
+    const [disabled, setDisabled] = useState(true);
     const [validationObj, setValidationObj] = useState({});
 
     useEffect(() => {
         const errObj = {};
         const extensions = ['png', 'jpg', 'jpeg'];
-        // const spot = dispatch(thunkGetSingleSpot(id));
         if (address.length < 1) errObj.address = "Address is required";
         if (city.length < 3) errObj.city = "City is required";
         if (!state.length) errObj.state = "State is required";
@@ -35,14 +38,20 @@ export const CreateSpot = ({spot, formType}) => {
         if (!name.length || name.length > 49) errObj.name = "Name is required";
         if (description.length < 30) errObj.description = "Description needs a minimum of 30 characters";
         if (!price || price < 0) errObj.price = "Price per night is required";
-        if (preview['url'].length < 1) errObj.previewImg = "At least one preview image is required";
         formType ? setHidden(true) : setHidden(false);
-        if (!extensions.includes(preview['url'].split('.').slice(-1)[0])) errObj.previewUrl = "Image URLs must end in .png, .jpg, or .jpeg";
-        if (!extensions.includes(img.split('.').slice(-1)[0])) errObj.img = "Image URLs must end in .png, .jpg, or .jpeg"
+        if (!formType) {
+            if (preview.length < 1) errObj.previewLength = "At least one preview image is required";
+            if (preview && !extensions.includes(preview.split('.').slice(-1)[0])) errObj.previewExtension = "Image URLs must end in .png, .jpg, or .jpeg";
+            if (img && !extensions.includes(img.split('.').slice(-1)[0])) errObj.img = "Image URLs must end in .png, .jpg, or .jpeg";
+            if (img2 && !extensions.includes(img2.split('.').slice(-1)[0])) errObj.img2 = "Image URLs must end in .png, .jpg, or .jpeg";
+            if (img3 && !extensions.includes(img3.split('.').slice(-1)[0])) errObj.img3 = "Image URLs must end in .png, .jpg, or .jpeg";
+            if (img4 && !extensions.includes(img4.split('.').slice(-1)[0])) errObj.img4 = "Image URLs must end in .png, .jpg, or .jpeg";
+        }
+        Object.values(errObj).length ? setDisabled(true) : setDisabled(false);
 
         setValidationObj(errObj);
-    }, [address, city, state, country, name, description, price, preview]);
-
+    }, [address, city, state, country, name, description, price, preview, img, img2, img3, img4]);
+    console.log('PREVIEW!!!!.....', preview)
     const handleSubmit = async(e) => {
         e.preventDefault();
         if (formType === "Update your Spot") {
@@ -55,19 +64,27 @@ export const CreateSpot = ({spot, formType}) => {
                 console.log('LINE 61...failed update', updatedSpot)
             }
         } else {
-            let previewImage;
-            preview.url.length > 0 ? previewImage = preview.url : previewImage = null;
-            let data = { address, city, state, country, name, description, price, previewImage};
-            const imej = {url: img, preview: false}
-            const newSpot = await dispatch(thunkCreateSpot(data));
-            if (newSpot.id) {
+            let data = { address, city, state, country, name, description, price };
+            let prevImg = {["url"]: preview, ["preview"]: true};
+            let image;
+            let image2;
+            let image3;
+            let image4;
+            img.length ? image = {["url"]: img, ["preview"]: false} : image = {["url"]: 'https://clipart-library.com/img/1643520.jpg', ["preview"]: false};
+            img2.length ? image2 = {["url"]: img2, ["preview"]: false} : image2 = {["url"]: 'https://clipart-library.com/img/1643520.jpg', ["preview"]: false};
+            img3.length ? image3 = {["url"]: img3, ["preview"]: false} : image3 = {["url"]: 'https://clipart-library.com/img/1643520.jpg', ["preview"]: false};
+            img4.length ? image4 = {["url"]: img4, ["preview"]: false} : image4 = {["url"]: 'https://clipart-library.com/img/1643520.jpg', ["preview"]: false};
 
-                const newnew = await dispatch(thunkGetSingleSpot(newSpot.id))
-                if (newnew.id) {
-                    const nooo = await dispatch(thunkAddImage(imej, newnew));
-                    await dispatch(thunkGetSingleSpot(nooo.id))
-                    history.push(`/spots/${newnew.id}`);
-                }
+            const newSpot = await dispatch(thunkCreateSpot(data));
+
+            if (newSpot.id) {
+                await dispatch(thunkAddImage(newSpot.id, prevImg));
+                await dispatch(thunkAddImage(newSpot.id, image));
+                await dispatch(thunkAddImage(newSpot.id, image2));
+                await dispatch(thunkAddImage(newSpot.id, image3));
+                await dispatch(thunkAddImage(newSpot.id, image4));
+                await dispatch(thunkGetSingleSpot(newSpot.id))
+                history.push(`/spots/${newSpot.id}`);
             }
         }
     };
@@ -117,7 +134,7 @@ export const CreateSpot = ({spot, formType}) => {
                         onChange={e => setCity(e.target.value)}
                     />
                 </label>
-                {validationObj.city && <p className={(!country.length && !address.length && !city.length && !state.length && !description.length && !name.length && !preview.url.length && !img.length) ? "hidden" : "errors"}>{validationObj.city}</p>}
+                {validationObj.city && <p className="errors">{validationObj.city}</p>}
 
                 <label htmlFor="state">
                     State
@@ -185,9 +202,9 @@ export const CreateSpot = ({spot, formType}) => {
                     <br />
                         <input className="input-box"
                             type='text'
-                            value={preview['url']}
+                            value={preview}
                             placeholder='Preview Image URL'
-                            onChange={(e) => setPreview({url: e.target.value})}
+                            onChange={(e) => setPreview(e.target.value)}
                             /><br/>
                         <input className="input-box"
                             type='text'
@@ -198,25 +215,29 @@ export const CreateSpot = ({spot, formType}) => {
 
                             <input className="input-box"
                             type='text'
-                            value=""
+                            value={img2}
                             placeholder='Image URL'
+                            onChange={(e) => setImg2(e.target.value)}
                             /> <br/>
                             <input className="input-box"
                             type='text'
-                            value=""
+                            value={img3}
                             placeholder='Image URL'
+                            onChange={(e) => setImg3(e.target.value)}
                             /> <br/>
                             <input className="input-box"
                             type='text'
-                            value=""
+                            value={img4}
                             placeholder='Image URL'
+                            onChange={(e) => setImg4(e.target.value)}
                             /> <br/>
                     </label>
-                {validationObj.previewImg && <p className={formType ? "hidden" : "errors"}>{validationObj.previewImg}</p>}
-                {(validationObj.previewUrl || validationObj.img) && <p className={formType ? "hidden" : "errors"}>{validationObj.previewUrl}</p>}
+                {validationObj.previewLength && <p className={formType ? "hidden" : "errors imageErrors"}>{validationObj.previewLength}</p>}
+                {validationObj.previewExtension && <p className={formType ? "hidden" : "errors imageErrors"}>{validationObj.previewExtension}</p>}
+                {/* {(validationObj.previewUrl || validationObj.img) && <p className={formType ? "hidden" : "errors imageErrors"}>{validationObj.previewUrl}</p>} */}
                 <hr style={{background: "black", height: "1px", width: "100%" }}/>
                 </div>
-                <button className="finalizeBtn" type="submit">{formType ? "Update Spot" : "Create Spot"}</button>
+                <button className={disabled ? "disabledBtn" : "finalizeBtn"} type="submit" disabled={disabled}>{formType ? "Update Spot" : "Create Spot"}</button>
             </form>
         </div>
     )

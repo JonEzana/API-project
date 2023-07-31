@@ -16,42 +16,26 @@
     height: 300px;
     gap: 5px;
 }
-.img{
+.img,.previewImg{
     height: 100%;
     width: 100%;
     border-radius: 5px;
 }
-._1{
+.previewImg{
     grid-area: a;
 }
-._2{
+._1{
     grid-area: b;
 }
-._3{
+._2{
     grid-area: c;
 }
-._4{
+._3{
     grid-area: d;
 }
-._5{
+._4{
     grid-area: e;
 }
-
-/* .img-container{
-    display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  grid-template-rows: repeat(6, 200px);
-  grid-gap: 1rem;
-  grid-auto-flow: dense;
-
-  grid-column: span 2;
-  grid-row: span 2;
-} */
-
-
-
-
-
 .spot-general-info{
     display: grid;
     grid-template-columns: 66% 34%;;
@@ -106,28 +90,30 @@
     background-color: rgb(122, 15, 28);
     cursor: pointer;
 }
-.star-rev{
-    margin-bottom: 20px;
+.review-portion{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.finalStarReview{
+}
+.reviews{
+}
+.individual{
+    display: flex;
+    flex-direction: column;
+    border: 1px red solid;
 }
 .rev-btn{
-   margin: 15px 0 15px 0;
 }
 .hello{
-    font-size: 18px;
 }
 .individual{
     /* border: 1px red solid; */
 }
 .name{
-    margin-top: 15px;
-    font-size: 20px;
-    font-weight: 400;
 }
 .date{
-    font-size: 14px;
-    /* border: 1px blue solid; */
-    margin-top: -15px;
-    font-weight: 100;
 }
 .delete-btn:hover{
     cursor: pointer;

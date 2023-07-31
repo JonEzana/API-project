@@ -15,7 +15,6 @@ export const SpotShow = () => {
     const user = useSelector(state => state.session.user);
     const reviewData = useSelector(state => state.reviews.spot);
     const spot = useSelector(state => state.spots.singleSpot);
-    console.log('SpotShow, user...', user)
 
     useEffect(() => {
         dispatch(thunkGetSingleSpot(spotId));
@@ -25,7 +24,7 @@ export const SpotShow = () => {
         }
     }, [dispatch]);
 
-    if ( !Object.values(spot).length || !spotId) return null;
+    if ( !Object.values(spot).length || !spotId) return (<></>);
 
     let reviews = Object.values(reviewData).filter(rev => rev.spotId == spot.id);
 
@@ -39,6 +38,7 @@ export const SpotShow = () => {
     const feature = () => {
         window.alert('Feature Coming Soon...');
     };
+    console.log("SpotImages....", SpotImages)
     return(
         <div className="_main_">
 
@@ -48,7 +48,7 @@ export const SpotShow = () => {
             </div>
             <div className='img-container'>
                 {SpotImages.length && SpotImages.map(img => (
-                    <img className={"_" + ++imgClass + " img"} src={img.url ? `${img.url}` : 'https://clipart-library.com/img/1643520.jpg'} alt={img.url}></img>
+                    <img className={img.preview === true ? "previewImg" : "_" + ++imgClass + " img"} src={img.url} alt={img.url} key={img.id}></img>
                 ))}
             </div>
             <div className='spot-general-info'>
@@ -70,35 +70,46 @@ export const SpotShow = () => {
             </div>
             {/* <div className='price-rev-reserve'>
             </div> */}
+
+
             <hr style={{background: "black", height: "1px", width: "100%" }}/>
-            <div className="star-rev">
-                { numReviews > 1 && <i className="hello fa-sharp fa-solid fa-star">{avgStarRating ? avgStarRating.toFixed(1) : "New"} • {numReviews} reviews </i>}
-                { numReviews === 1 && <i className="hello fa-sharp fa-solid fa-star">{avgStarRating ? avgStarRating.toFixed(1) : "New"} • 1 review </i>}
-                { numReviews === 0 && <i className="hello fa-sharp fa-solid fa-star">New</i>}
-            <div className={(!user || ((user && id == user.id) || (user && userReviews > 0))) ? "hidden rev-btn" : "rev-btn"}>
-                <OpenModalButton
-                        style={{background: "grey", color: "white", boxShadow: "3px 3px 3px black"}}
-                        buttonText='Post Your Review'
-                        modalComponent={<CreateReviewModal spotId={spotId}/>}
-                />
-               <p className={reviews.length === 0 ? "encouragement" : "hidden"}>Be the first to post a review!</p>
-            </div>
-            </div>
-            <div className='reviews'>
-                {sortedReviews.map(rev => (
-                    <div className='individual review' >
-                        <h4 className="name">{rev.User.firstName}</h4>
-                        <h4 className="date">{rev.createdAt.split('-').slice(-1)[0].split('').slice(0, 2).join('')}/{rev.createdAt.split('-').slice(1, 2)}/{rev.createdAt.split('-').slice(0, 1)}</h4>
-                        <p className="revtxt">{rev.review}</p>
-                       <div className={rev?.User.id == user?.id ? "delete-btn" : "hidden"}>
-                            <OpenModalButton
-                                buttonText="Delete"
-                                modalComponent={<DeleteReviewModal id={rev.id}/>}
+
+            <div className="review-portion">
+
+                <div className="star-rev">
+                    { numReviews > 1 && <i className="finalStarReview fa-sharp fa-solid fa-star">{avgStarRating ? avgStarRating.toFixed(1) : "New"} • {numReviews} reviews </i>}
+                    { numReviews === 1 && <i className="finalStarReview fa-sharp fa-solid fa-star">{avgStarRating ? avgStarRating : "New"} • 1 review </i>}
+                    { numReviews === 0 && <i className="finalStarReview fa-sharp fa-solid fa-star">New</i>}
+                </div>
+
+                <div className={(!user || ((user && id == user.id) || (user && userReviews > 0))) ? "hidden rev-btn" : "rev-btn"}>
+                    <OpenModalButton
+                            style={{background: "grey", color: "white", boxShadow: "3px 3px 3px black"}}
+                            buttonText='Post Your Review'
+                            modalComponent={<CreateReviewModal spotId={spotId}/>}
                             />
-                            {/* <p>I WROTE THIS!!!!!!!!</p> */}
+                </div>
+
+                <p className={user && reviews.length === 0 ? "encouragement" : "hidden"}>Be the first to post a review!</p>
+
+                <div className='reviews'>
+                    {sortedReviews.map(rev => (
+                        <div className='individual review' key={rev.id}>
+                            <p className="name">{rev.User.firstName}</p>
+                            <p className="date">{rev.createdAt.split('-').slice(-1)[0].split('').slice(0, 2).join('')}/{rev.createdAt.split('-').slice(1, 2)}/{rev.createdAt.split('-').slice(0, 1)}</p>
+                            <p className="revtxt">{rev.review}</p>
+
+                            <div className={rev?.User.id == user?.id ? "delete-btn" : "hidden"}>
+                                    <OpenModalButton
+                                        buttonText="Delete"
+                                        modalComponent={<DeleteReviewModal id={rev.id}/>}
+                                        />
+                                    {/* <p>I WROTE THIS!!!!!!!!</p> */}
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
+
             </div>
         </div>
     )
