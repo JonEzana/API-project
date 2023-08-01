@@ -58,10 +58,17 @@ export const SpotShow = () => {
                 </div>
                 <div className="reserve">
                     <div className="price-star-rev">
-                        <h2>${price}/night</h2>
-                        { numReviews > 1 && <i className="fa-sharp fa-solid fa-star">{avgStarRating ? avgStarRating.toFixed(1) : "New"} • {numReviews} reviews </i>}
-                        { numReviews === 1 && <i className="fa-sharp fa-solid fa-star">{avgStarRating ? avgStarRating.toFixed(1) : "New"} • 1 review </i>}
-                        { numReviews === 0 && <i className="fa-sharp fa-solid fa-star"> New </i>}
+                        <h2 className="spotPrice">${price}/night</h2>
+                        <div className="reserve-box-revCount_hasRev">
+                            { numReviews > 1 && <><i className="fa-sharp fa-solid fa-star reviewCount"></i><p className="reserveBox-revCount-text">{avgStarRating ? avgStarRating.toFixed(1) : "New"} • {numReviews} reviews </p></>}
+                        </div>
+                        <div className="reserve-box-revCount_hasRev">
+                            { numReviews === 1 && <><i className="fa-sharp fa-solid fa-star reviewCount"></i><p className="reserveBox-revCount-text">{avgStarRating ? avgStarRating.toFixed(1) : "New"} • 1 review</p></>}
+                        </div>
+                        <div className="reserve-box-revCount_new">
+                            { numReviews === 0 && <><i className="fa-sharp fa-solid fa-star reviewCount"></i><p className="reserveBox-revCount-text">New</p></>}
+                        </div>
+
                     </div>
                     <div className="reserve-btn">
                         <button className="BUTTON" onClick={feature}>Reserve</button>
@@ -77,14 +84,27 @@ export const SpotShow = () => {
             <div className="review-portion">
 
                 <div className="star-rev">
-                    { numReviews > 1 && <i className="finalStarReview fa-sharp fa-solid fa-star">{avgStarRating ? avgStarRating.toFixed(1) : "New"} • {numReviews} reviews </i>}
-                    { numReviews === 1 && <i className="finalStarReview fa-sharp fa-solid fa-star">{avgStarRating ? avgStarRating : "New"} • 1 review </i>}
-                    { numReviews === 0 && <i className="finalStarReview fa-sharp fa-solid fa-star">New</i>}
+                    {numReviews > 1 && <div className="finalRevCountFinal">
+                        <i className="finalStarReview fa-sharp fa-solid fa-star"></i>
+                        <p className="finalRevWritten">
+                            {avgStarRating ? avgStarRating.toFixed(1) : "New"} • {numReviews} reviews
+                        </p>
+                    </div>}
+                    { numReviews === 1 && <div className="finalRevCountFinal">
+                        <i className="finalStarReview fa-sharp fa-solid fa-star"></i>
+                        <p className="finalRevWritten">
+                            {avgStarRating ? avgStarRating.toFixed(1) : "New"} • 1 review
+                        </p>
+                    </div>}
+                    { numReviews === 0 && <div className="finalRevCountFinal">
+                        <i className="finalStarReview fa-sharp fa-solid fa-star"></i>
+                        <p className="finalRevWritten">New</p>
+                    </div>}
                 </div>
 
                 <div className={(!user || ((user && id == user.id) || (user && userReviews > 0))) ? "hidden rev-btn" : "rev-btn"}>
                     <OpenModalButton
-                            style={{background: "grey", color: "white", boxShadow: "3px 3px 3px black"}}
+                            style={{background: "grey", color: "white", boxShadow: "3px 3px 3px black", borderRadius: "5px"}}
                             buttonText='Post Your Review'
                             modalComponent={<CreateReviewModal spotId={spotId}/>}
                             />
@@ -95,16 +115,16 @@ export const SpotShow = () => {
                 <div className='reviews'>
                     {sortedReviews.map(rev => (
                         <div className='individual review' key={rev.id}>
-                            <p className="name">{rev.User.firstName}</p>
-                            <p className="date">{rev.createdAt.split('-').slice(-1)[0].split('').slice(0, 2).join('')}/{rev.createdAt.split('-').slice(1, 2)}/{rev.createdAt.split('-').slice(0, 1)}</p>
+                            <p className="reviewer-name">{rev.User.firstName}</p>
+                            <p className="date">{rev.createdAt.split('-').slice(1, 2)}/{rev.createdAt.split('-').slice(-1)[0].split('').slice(0, 2).join('')}/{rev.createdAt.split('-').slice(0, 1)}</p>
                             <p className="revtxt">{rev.review}</p>
 
                             <div className={rev?.User.id == user?.id ? "delete-btn" : "hidden"}>
                                     <OpenModalButton
                                         buttonText="Delete"
                                         modalComponent={<DeleteReviewModal id={rev.id}/>}
+                                        style={{backgroundColor: "rgb(223, 70, 88)", color: "white"}}
                                         />
-                                    {/* <p>I WROTE THIS!!!!!!!!</p> */}
                             </div>
                         </div>
                     ))}
