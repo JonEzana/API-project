@@ -31,7 +31,8 @@ export const CreateReviewModal = ({spotId}) => {
         const res = await dispatch(thunkCreateReview(reviewData));
         if (res.id) {
             closeModal()
-            await dispatch(thunkReviewsBySpot(spotId))
+            await dispatch(thunkReviewsBySpot(spotId));
+            await dispatch(thunkGetSingleSpot(spotId))
             history.push(`/spots/${spotId}`)
         }
     }
