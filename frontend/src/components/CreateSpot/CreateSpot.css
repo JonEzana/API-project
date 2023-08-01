@@ -54,3 +54,14 @@ h2{
 .hidden{
     visibility: hidden;
 }
+
+.imageErrors{
+    margin-bottom: 5px;
+}
+
+.disabledBtn{
+    color: white;
+    background-color: grey;
+    border: 2px solid grey;
+    box-shadow: 3px 3px 3px grey;
+}

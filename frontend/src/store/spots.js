@@ -35,6 +35,7 @@ export const thunkGetSingleSpot = (spotId) => async (dispatch) => {
     const res = await fetch(`/api/spots/${spotId}`);
     if (res.ok) {
         const spot = await res.json();
+        // console.log('GET SINGLE SPOT THUNK, ', spot)
         dispatch(actionGetSingleSpot(spot));
         return spot;
     } else {
@@ -82,20 +83,20 @@ export const thunkCreateSpot = (spotFormData) => async (dispatch) => {
 };
 
 ////////------ ADD IMAGE TO SPOT--------/////////
-export const actionAddImage = (spot, image) => ({
+export const actionAddImage = (image) => ({
     type: ADD_IMG,
-    payload: {spot, image}
+    payload: image
 });
-export const thunkAddImage = (image, spotData) => async (dispatch) => {
-    const res = await csrfFetch(`/api/spots/${spotData.id}/images`, {
+export const thunkAddImage = (id, imgData) => async (dispatch) => {
+    const res = await csrfFetch(`/api/spots/${id}/images`, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(image)
+        body: JSON.stringify(imgData)
     });
     if (res.ok) {
         const img = await res.json();
-        dispatch(actionAddImage(spotData, img));
-        return {spotData};
+        dispatch(actionAddImage(img));
+        return img;
     } else {
         const error = await res.json();
         return error;
@@ -107,23 +108,19 @@ export const actionUpdateSpot = (spot) => ({
     type: UPDATE_SPOT,
     payload: spot
 });
-export const thunkUpdateSpot = (spot) => async (dispatch, getState) => {
-    const state = getState();
-    const currentSpot = state.spots.singleSpot;
-    console.log('Thunk, currentSpot...', currentSpot)
-    const res = await csrfFetch(`/api/spots/${spot.id}`, {
+export const thunkUpdateSpot = (spotData) => async (dispatch) => {
+    const res = await csrfFetch(`/api/spots/${spotData.id}`, {
         method: "PUT",
         headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(spot)
+        body: JSON.stringify(spotData)
     });
     if (res.ok) {
-        const spt = await res.json();
-        dispatch(actionUpdateSpot(spt));
-        return spt;
+        const spot = await res.json();
+        dispatch(actionUpdateSpot(spot));
+        return spot;
     } else {
-        console.log('MISSION FAILED')
         const error = await res.json();
-        return error;
+        return error.errors;
     }
 };
 
@@ -159,37 +156,45 @@ export default function spotsReducer(state = initialState, action) {
             return newState
         }
         case GET_ONE_SPOT: {
-            return {...state, singleSpot: action.spot, allSpots: {...state.allSpots}, currentUserSpots: {}};
+            return {...state, singleSpot: {...action.spot}, allSpots: {...state.allSpots}, currentUserSpots: {}};
         }
         case GET_CURRENT_SPOTS: {
-            const newState = {...state, allSpots: {...state.allSpots}, singleSpot: {...state.singleSpot}, currentUserSpots: {...state.currentUserSpots}};
+            const newState = {...state, allSpots: {...state.allSpots}, singleSpot: {...state.singleSpot}, currentUserSpots: {}};
             action.spots.Spots.forEach(spot => {
                 newState.currentUserSpots[spot.id] = spot;
             });
             return newState;
         }
         case CREATE_SPOT: {
-            const newState = {...state, allSpots: {...state.allSpots}, singleSpot: {}, currentUserSpots: {...state.currentUserSpots}};
-            newState.singleSpot = action.payload.spot;
-            return newState;
+            return {
+                ...state,
+                allSpots: {...state.allSpots, [action.payload.id]: action.payload},
+                singleSpot: {...action.payload},
+                currentUserSpots: {...state.currentUserSpots, [action.payload.id]: action.payload}
+            };
         }
         case ADD_IMG: {
-            const newState = {...state, singleSpot: {}, allSpots: {...state.allSpots}, currentUserSpots: {}};
-            const Spot = action.payload.spot;
-            Spot['SpotImages'].push(action.payload.image);
-            newState.singleSpot = Spot;
-            return newState;
+            return {
+                ...state,
+                singleSpot: {...state.singleSpot, ...state.singleSpot.SpotImages, ...action.payload},
+                allSpots: {...state.allSpots},
+                currentUserSpots: {...state.currentUserSpots}
+            };
         }
         case UPDATE_SPOT: {
-            const newState = {...state, allSpots: {...state.allSpots}, singleSpot: {...state.singleSpot}, currentUserSpots: {...state.currentUserSpots}};
-            newState.singleSpot = action.payload;
-            console.log('update reducer, .......', newState.singleSpot)
+            const newState = {
+                ...state,
+                allSpots: {...state.allSpots, [action.payload.id]: action.payload},
+                singleSpot: {...action.payload},
+                currentUserSpots: {...state.currentUserSpots, [action.payload.id]: action.payload}
+            };
+            console.log('Reducer - update case, newState....', newState)
             return newState;
         }
         case DELETE_SPOT: {
             const newState = {...state, allSpots: {...state.allSpots}, singleSpot: {...state.singleSpot}, currentUserSpots: {...state.currentUserSpots}};
             delete newState.allSpots[action.id];
-            delete newState.singleSpot[action.id];
+            delete newState.singleSpot;
             delete newState.currentUserSpots[action.id];
             return newState;
         }

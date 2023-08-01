@@ -27,17 +27,17 @@ export const SpotsIndex = () => {
         <>
             <div className='spots-container'>
                 {sortedSpots.map(spot => (
-                    <div className='spot' title={`${spot.name}`} onClick={() => currentUser ? history.push(`/spots/${spot.id}`) : window.alert('Must be logged in to view Spot details')} key={spot.id} >
+                    <div className='spot' title={`${spot.name}`} onClick={() => history.push(`/spots/${spot.id}`)} key={spot.id} >
 
                         <span data-tooltip={spot.name} data-position="right">
 
                             <img  className="spot-img" src={spot.previewImage ? `${spot.previewImage}` : 'https://clipart-library.com/img/1643520.jpg'} ></img>
                             <div className="loc-price">
                                 <p>{spot.city}, {spot.state}</p>
-                                <h4 className='ratings'>
-                                    <i className="fa-sharp fa-solid fa-star"></i>
-                                    {spot.avgRating ? spot.avgRating : "New"}
-                                </h4>
+                                <div className='ratings'>
+                                    <i className="fa-sharp fa-solid fa-star revSummary"></i>
+                                    <p>{spot.avgRating ? spot.avgRating : "New"}</p>
+                                </div>
                             </div>
                             <h4>${spot.price}/night</h4>
                         </span>

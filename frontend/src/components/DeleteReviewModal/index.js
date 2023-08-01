@@ -3,10 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { thunkDeleteReview, thunkReviewsByUser } from "../../store/reviews";
 import { thunkGetSingleSpot } from "../../store/spots";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 export const DeleteReviewModal = ({id}) => {
-    const {spotId} = useParams()
     const history = useHistory();
     const { closeModal } = useModal();
     const dispatch = useDispatch();
@@ -19,9 +18,9 @@ export const DeleteReviewModal = ({id}) => {
 
     const yes = async () => {
         await dispatch(thunkDeleteReview(id));
-        await dispatch(thunkGetSingleSpot(spotId))
+        await dispatch(thunkGetSingleSpot(id))
         closeModal();
-        // history.push(`/spots/${spotId}`);
+        history.push(`/spots/${id}`);
     };
 
     return (

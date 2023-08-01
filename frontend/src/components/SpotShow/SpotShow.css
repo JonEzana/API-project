@@ -16,42 +16,26 @@
     height: 300px;
     gap: 5px;
 }
-.img{
+.img,.previewImg{
     height: 100%;
     width: 100%;
-    border-radius: 5px;
+    border-radius: 30px;
 }
-._1{
+.previewImg{
     grid-area: a;
 }
-._2{
+._1{
     grid-area: b;
 }
-._3{
+._2{
     grid-area: c;
 }
-._4{
+._3{
     grid-area: d;
 }
-._5{
+._4{
     grid-area: e;
 }
-
-/* .img-container{
-    display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  grid-template-rows: repeat(6, 200px);
-  grid-gap: 1rem;
-  grid-auto-flow: dense;
-
-  grid-column: span 2;
-  grid-row: span 2;
-} */
-
-
-
-
-
 .spot-general-info{
     display: grid;
     grid-template-columns: 66% 34%;;
@@ -79,17 +63,42 @@
     display: flex;
     flex-direction: column;
     margin-top: 10px;
+    gap: 10px;
 }
 .price-star-rev{
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
+    text-align: center;
     font-size: 13px;
-    margin: 0 5% 0 5%;
 }
-.fa-sharp{
-    margin-top: 22px;
-    font-size: 13px;
+.spotPrice{
+    margin-left: 10px;
+}
+.reviewCount{
+    margin-right: -5px;
+}
+.reserve-box-revCount_hasRev{
+    /* margin-top: 22px;
+    font-size: 13px; */
+    /* border: 1px red solid; */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+    word-spacing: 1px;
+}
+.reserve-box-revCount_new{
+    /* margin-top: 22px;
+    font-size: 13px; */
+    /* border: 1px red solid; */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+}
+.reserveBox-revCount-text{
+    font-size: 18px;
 }
 .reserve-btn{
    display: flex;
@@ -101,33 +110,50 @@
     background-color: rgb(223, 70, 88);
     color: white;
     box-shadow: 3px 3px 3px black;
+    border-radius: 10px;
 }
 .BUTTON:hover{
     background-color: rgb(122, 15, 28);
     cursor: pointer;
 }
-.star-rev{
-    margin-bottom: 20px;
+.review-portion{
+    display: flex;
+    flex-direction: column;
 }
 .rev-btn{
-   margin: 15px 0 15px 0;
+    margin-top: 10px;
 }
-.hello{
+.finalRevCountFinal{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: -5px;
+}
+.finalRevWritten{
     font-size: 18px;
 }
-.individual{
-    /* border: 1px red solid; */
+.reviews{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 }
-.name{
-    margin-top: 15px;
-    font-size: 20px;
-    font-weight: 400;
+.individual{
+    display: flex;
+    flex-direction: column;
+}
+.reviewer-name{
+    font-size: 18px;
+    font-weight: 540;
 }
 .date{
     font-size: 14px;
-    /* border: 1px blue solid; */
-    margin-top: -15px;
-    font-weight: 100;
+    font-weight: 50;
+    margin: -15px 0 -2px 0;
+}
+.revtxt{
+}
+.delete-btn{
+    margin-bottom: 5px;
 }
 .delete-btn:hover{
     cursor: pointer;
