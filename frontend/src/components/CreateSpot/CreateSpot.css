@@ -1,4 +1,6 @@
-.errors{
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+.spotValErrors{
     color: red;
     margin-top: 10px;
     text-align:center;
@@ -6,10 +8,11 @@
 
 .spot-form{
     margin: 70px 33% 0 33%;
+    font-family: Montserrat;
 }
 label{
     width: 100%;
-    font-size: 12px;
+    font-size: 16px;
 }
 h2{
     font-weight: 400;
@@ -25,9 +28,9 @@ h2{
     margin-top: -35px;
     margin-bottom: -10px;
 }
-.input-box{
+/* .input-box{
     width: 300px;
-}
+} */
 .descbox{
     height: 70px;
 }
@@ -38,25 +41,32 @@ h2{
 .finalizeBtn{
     margin-top: -10px;
     color: white;
-    background-color: rgb(223, 70, 88);
+    background-color: #41bee6;
     border: 2px solid black;
     box-shadow: 3px 3px 3px black;
+    width: 40%;
+    height: 30px;
 }
 .finalizeBtn:hover{
-    background-color: rgb(141, 35, 46);
+    background-color: #12627c;
 }
 .price{
     margin-top: -30px;
 }
 .imageurls{
+    display: flex;
+    flex-direction: column;
     margin-top: -30px;
+    align-content: flex-start;
 }
 .hidden{
     visibility: hidden;
 }
 
 .imageErrors{
-    margin-bottom: 5px;
+    color: red;
+    margin-top: 10px;
+    text-align:center;
 }
 
 .disabledBtn{
@@ -64,4 +74,6 @@ h2{
     background-color: grey;
     border: 2px solid grey;
     box-shadow: 3px 3px 3px grey;
+    width: 40%;
+    height: 30px;
 }

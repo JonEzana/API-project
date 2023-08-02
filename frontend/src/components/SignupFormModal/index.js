@@ -59,6 +59,7 @@ function SignupFormModal() {
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
             required
+            style={{width: "90%", height: "30px"}}
           />
         </label>
         {errors.firstName && <p className="errors">{errors.firstName}</p>}
@@ -69,6 +70,7 @@ function SignupFormModal() {
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
             required
+            style={{width: "90%", height: "30px"}}
           />
         </label>
         {errors.lastName && <p className="errors">{errors.lastName}</p>}
@@ -79,6 +81,7 @@ function SignupFormModal() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            style={{width: "90%", height: "30px"}}
           />
         </label>
         {errors.email && <p className="errors">{errors.email}</p>}
@@ -89,6 +92,7 @@ function SignupFormModal() {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
+            style={{width: "90%", height: "30px"}}
           />
         </label>
         {errors.username && <p className="errors">{errors.username}</p>}
@@ -100,6 +104,7 @@ function SignupFormModal() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            style={{width: "90%", height: "30px"}}
           />
         </label>
         {errors.password && <p className="errors">{errors.password}</p>}
@@ -110,6 +115,7 @@ function SignupFormModal() {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
+            style={{width: "90%", height: "30px"}}
           />
         </label>
         {errors.confirmPassword && (

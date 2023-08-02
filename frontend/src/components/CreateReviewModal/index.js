@@ -18,12 +18,14 @@ export const CreateReviewModal = ({spotId}) => {
 
     const [revText, setRevText] = useState('');
     const [stars, setStars] = useState(null)
-    const [disabled, setDisabled] = useState(true);
-    // useEffect(() => {
-    //     revText.length >= 10 && stars > 0 ? setDisabled(false) : setDisabled(false);
-    //     // reviews.find(el => el.)
-    // }, [revText]);
-    // if (!Object.values(spot).length || !Object.values(user).length) return null;
+    const [valObj, setValObj] = useState({});
+
+    useEffect(() => {
+        const errObj = {}
+        if (revText.length < 10) errObj.review = "Reviews must be 10 characters or longer";
+        setValObj(errObj)
+    }, [revText]);
+
     spotId = +spotId;
     const handleSubmit = async () => {
         const reviewData = {userId, spotId, revText, stars};
@@ -47,7 +49,7 @@ export const CreateReviewModal = ({spotId}) => {
       };
 
     return (
-        <div className="wholemfthing" style={{marginTop: "4%"}}>
+        <div className="wholemfthing" style={{marginTop: "4%", fontFamily: "Montserrat"}} >
             <h2>How was your stay?</h2>
             <input className='text-box'
                 placeholder="Leave your review here..."
@@ -55,6 +57,7 @@ export const CreateReviewModal = ({spotId}) => {
                 value={revText}
                 onChange={(e) => setRevText(e.target.value)}
             />
+            {valObj.review && <p className="errorsForReview" style={{marginBottom: "10px"}}>{valObj.review}</p>}
                 <div className="rating-input" style={{display: "flex", flexDirection: "row", alignItems: "start"}}>
                     <div className={stars >= 1 ? "filled" : "empty"}
                         onMouseEnter={() => {  setStars(1)} }
@@ -96,7 +99,7 @@ export const CreateReviewModal = ({spotId}) => {
         <button
             disabled={revText.length >= 10 && stars > 0 ? false : true}
             onClick={handleSubmit}
-            style={{width: "60%", height: "40px", backgroundColor: "rgb(223, 70, 88)", color: "white", borderRadius: "5px", boxShadow: "3px 3px 3px black"}}
+            style={{width: "60%", height: "40px", backgroundColor: "#41bee6", color: "white", borderRadius: "5px", boxShadow: "3px 3px 3px black"}}
             >
             Submit Review
         </button>

@@ -16,7 +16,7 @@ function OpenModalMenuItem({
   };
 
   return (
-    <button onClick={onClick}>{itemText}</button>
+    <button className="signup-and-login-btns" onClick={onClick} style={{borderRadius: "8px", width: "90%"}}>{itemText}</button>
   );
 }
 

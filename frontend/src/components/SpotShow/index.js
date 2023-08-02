@@ -104,7 +104,7 @@ export const SpotShow = () => {
 
                 <div className={(!user || ((user && id == user.id) || (user && userReviews > 0))) ? "hidden rev-btn" : "rev-btn"}>
                     <OpenModalButton
-                            style={{background: "grey", color: "white", boxShadow: "3px 3px 3px black", borderRadius: "5px"}}
+                            style={{background: "#41bee6", color: "white", boxShadow: "3px 3px 3px black", borderRadius: "5px"}}
                             buttonText='Post Your Review'
                             modalComponent={<CreateReviewModal spotId={spotId}/>}
                     />
@@ -123,7 +123,7 @@ export const SpotShow = () => {
                                     <OpenModalButton
                                         buttonText="Delete"
                                         modalComponent={<DeleteReviewModal revId={rev.id} spotId={spotId}/>}
-                                        style={{backgroundColor: "rgb(223, 70, 88)", color: "white"}}
+                                        style={{backgroundColor: "#e66941", color: "white", width: "11%"}}
                                         />
                             </div>
                         </div>

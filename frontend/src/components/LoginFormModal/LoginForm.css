@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 #modal-content{
     border-radius: 14px;
     /* height: 200px; */
@@ -14,6 +15,7 @@
     justify-content: center;
     width: 100%;
     align-items: center;
+    font-family: Montserrat;
 }
 
 form{
@@ -37,11 +39,13 @@ form{
     width: 100%;
     border: 2px solid grey;
     box-shadow: 3px 3px 3px grey;
+    font-family: Montserrat;
 }
 .demoUser{
     width: 100%;
     border: 2px solid grey;
     box-shadow: 3px 3px 3px grey;
+    font-family: Montserrat;
 }
 .demoUser:hover{
     background-color: green;
@@ -55,13 +59,13 @@ form{
     margin-bottom: -10px;
 }
 .submit.enabled{
-    background-color: rgb(223, 70, 88);
+    background-color: #41bee6;
 }
 .valErr{
     color: red;
 }
 .submit.enabled:hover{
     cursor: pointer;
-    background-color: rgb(165, 238, 193);
+    background-color: #0e77a1;
 
 }

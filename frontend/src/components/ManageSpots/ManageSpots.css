@@ -1,23 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
 .main{
     margin-top: 70px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    font-family: Montserrat;
 }
 .header{
     margin-left: 60px;
 }
 .createbtn{
-    width: 160px;
-    height: 20px;
-    background-color: grey;
+    width: 230px;
+    height: 30px;
+    background-color: #41bee6;
     color: white;
     border: 1px solid black;
     box-shadow: 3px 3px 3px black;
     margin-right: 10px;
+    font-family: Montserrat;
 }
 .createbtn:hover{
-    background-color: black;
+    background-color: #1287af;
     color: white;
     cursor: pointer;
 }
@@ -28,14 +32,15 @@
 .individualSpot{
 }
 .updatebtn{
-    background-color: grey;
+    background-color: #41bee6;
     color: white;
     border: 1px solid black;
     box-shadow: 3px 3px 3px black;
     margin-right: 10px;
+    font-family: Montserrat;
 }
 .updatebtn:hover{
-    background-color: black;
+    background-color: #1287af;
     color: white;
     cursor: pointer;
 }

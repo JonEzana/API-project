@@ -14,7 +14,7 @@
 }
 placeholder{
     text-align: left;
-    border: 1px solid red;
+    /* border: 1px solid red; */
 }
 .rating-input{
     margin-bottom: 20px;;

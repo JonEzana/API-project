@@ -1,9 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
 ._main_{
     display: flex;
     flex-direction: column;
     max-width: 1000px;
     margin: 55px 6% 0 6%;
-    font-family:'Times New Roman', Times, serif;
+    font-family:Montserrat;
 }
 
 .img-container{
@@ -107,13 +109,15 @@
 .BUTTON{
     width: 90%;
     height: 40px;
-    background-color: rgb(223, 70, 88);
+    background-color: #41BEE6;
     color: white;
     box-shadow: 3px 3px 3px black;
     border-radius: 10px;
+    font-family: Montserrat;
+    font-size: 18px;
 }
 .BUTTON:hover{
-    background-color: rgb(122, 15, 28);
+    background-color: #1287af;
     cursor: pointer;
 }
 .review-portion{

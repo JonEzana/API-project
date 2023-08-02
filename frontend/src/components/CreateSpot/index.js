@@ -102,26 +102,26 @@ export const CreateSpot = ({spot, formType}) => {
                 <br />
                 <input
                 id="country"
-                style={{width: "300px"}}
+                style={{width: "99%", height: "35px"}}
                     type='text'
                     value={country}
                     placeholder='Country'
                     onChange={e => setCountry(e.target.value)}
                 />
             </label>
-            {validationObj.country && <p className="errors">{validationObj.country}</p>}
+            {validationObj.country && <p className="spotValErrors">{validationObj.country}</p>}
 
                 <label htmlFor="stAddress">
                     Street Address
                     <br />
                     <input id="stAddress"
                         type='text'
-                        style={{width: "300px"}}
+                        style={{width: "99%", height: "35px"}}
                         value={address}
                         placeholder='Address'
                         onChange={e => setAddress(e.target.value)}
                     />
-                {validationObj.address && <p className="errors">{validationObj.address}</p>}
+                {validationObj.address && <p className="spotValErrors">{validationObj.address}</p>}
                 </label>
 
                 <label htmlFor="city">
@@ -129,26 +129,26 @@ export const CreateSpot = ({spot, formType}) => {
                     <br />
                     <input id="city"
                         type='text'
-                        style={{width: "300px"}}
+                        style={{width: "99%", height: "35px"}}
                         value={city}
                         placeholder='City'
                         onChange={e => setCity(e.target.value)}
                     />
                 </label>
-                {validationObj.city && <p className="errors">{validationObj.city}</p>}
+                {validationObj.city && <p className="spotValErrors">{validationObj.city}</p>}
 
                 <label htmlFor="state">
                     State
                     <br />
                     <input className="state"
-                        style={{width: "300px"}}
+                        style={{width: "99%", height: "35px"}}
                         type='text'
                         value={state}
                         placeholder='STATE'
                         onChange={e => setState(e.target.value)}
                     />
                 </label>
-                {validationObj.state && <p className="errors">{validationObj.state}</p>}
+                {validationObj.state && <p className="spotValErrors">{validationObj.state}</p>}
 
                 <hr style={{background: "black", height: "1px", width: "100%" }}/>
 
@@ -161,9 +161,10 @@ export const CreateSpot = ({spot, formType}) => {
                         value={description}
                         placeholder='Please write at least 30 characters'
                         onChange={e => setDescription(e.target.value)}
+                        style={{width: "99%", height: "70px"}}
                         />
                 </label>
-                {validationObj.description && <p className="errors">{validationObj.description}</p>}
+                {validationObj.description && <p className="spotValErrors">{validationObj.description}</p>}
 
                 <hr style={{background: "black", height: "1px", width: "100%" }}/>
 
@@ -176,9 +177,10 @@ export const CreateSpot = ({spot, formType}) => {
                         value={name}
                         placeholder='Name of your spot'
                         onChange={e => setName(e.target.value)}
+                        style={{width: "99%", height: "35px"}}
                         />
                 </label>
-                {validationObj.name && <p className="errors">{validationObj.name}</p>}
+                {validationObj.name && <p className="spotValErrors">{validationObj.name}</p>}
 
                 <hr style={{background: "black", height: "1px", width: "100%" }}/>
 
@@ -191,9 +193,10 @@ export const CreateSpot = ({spot, formType}) => {
                         value={price}
                         placeholder='Price per night (USD)'
                         onChange={e => setPrice(e.target.value)}
+                        style={{width: "99%", height: "35px"}}
                         />
                 </label>
-                {validationObj.price && <p className="errors">{validationObj.price}</p>}
+                {validationObj.price && <p className="spotValErrors">{validationObj.price}</p>}
 
                 <hr style={{background: "black", height: "1px", width: "100%" }}/>
                 <div className={hidden ? "hidden" : "imageurls"}>
@@ -206,12 +209,14 @@ export const CreateSpot = ({spot, formType}) => {
                             value={preview}
                             placeholder='Preview Image URL'
                             onChange={(e) => setPreview(e.target.value)}
+                            style={{width: "99%", height: "35px"}}
                             /><br/>
                         <input className="input-box"
                             type='text'
                             value={img}
                             placeholder='Image URL'
                             onChange={(e) => setImg(e.target.value)}
+                            style={{width: "99%", height: "35px"}}
                             /> <br/>
 
                             <input className="input-box"
@@ -219,26 +224,29 @@ export const CreateSpot = ({spot, formType}) => {
                             value={img2}
                             placeholder='Image URL'
                             onChange={(e) => setImg2(e.target.value)}
+                            style={{width: "99%", height: "35px"}}
                             /> <br/>
                             <input className="input-box"
                             type='text'
                             value={img3}
                             placeholder='Image URL'
                             onChange={(e) => setImg3(e.target.value)}
+                            style={{width: "99%", height: "35px"}}
                             /> <br/>
                             <input className="input-box"
                             type='text'
                             value={img4}
                             placeholder='Image URL'
                             onChange={(e) => setImg4(e.target.value)}
+                            style={{width: "99%", height: "35px"}}
                             /> <br/>
                     </label>
-                {validationObj.previewLength && <p className={formType ? "hidden" : "errors imageErrors"}>{validationObj.previewLength}</p>}
-                {validationObj.previewExtension && <p className={formType ? "hidden" : "errors imageErrors"}>{validationObj.previewExtension}</p>}
+                {validationObj.previewLength && <p className={formType ? "hidden" : "imageErrors"}>{validationObj.previewLength}</p>}
+                {validationObj.previewExtension && <p className={formType ? "hidden" : "imageErrors"}>{validationObj.previewExtension}</p>}
                 {/* {(validationObj.previewUrl || validationObj.img) && <p className={formType ? "hidden" : "errors imageErrors"}>{validationObj.previewUrl}</p>} */}
-                <hr style={{background: "black", height: "1px", width: "100%" }}/>
                 </div>
-                <button className={disabled ? "disabledBtn" : "finalizeBtn"} type="submit" disabled={disabled}>{formType ? "Update Spot" : "Create Spot"}</button>
+                <hr style={{background: "black", height: "1px", width: "100%" }}/>
+                <button className={disabled ? "disabledBtn" : "finalizeBtn"} type="submit" disabled={disabled} style={{marginBottom: "5px"}}>{formType ? "Update Spot" : "Create Spot"}</button>
             </form>
         </div>
     )
