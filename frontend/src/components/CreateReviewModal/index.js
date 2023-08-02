@@ -47,7 +47,7 @@ export const CreateReviewModal = ({spotId}) => {
       };
 
     return (
-        <div className="wholemfthing">
+        <div className="wholemfthing" style={{marginTop: "4%"}}>
             <h2>How was your stay?</h2>
             <input className='text-box'
                 placeholder="Leave your review here..."
@@ -55,44 +55,51 @@ export const CreateReviewModal = ({spotId}) => {
                 value={revText}
                 onChange={(e) => setRevText(e.target.value)}
             />
-            <div className="rating-input">
-                <div className={stars >= 1 ? "filled" : "empty"}
-                    onMouseEnter={() => {  setStars(1)} }
-                    onMouseLeave={() => {  setStars(stars)} }
-                    onClick={() => {  onChange(1)} }
-                >
-                    <i className="fa-solid fa-star"></i>
+                <div className="rating-input" style={{display: "flex", flexDirection: "row", alignItems: "start"}}>
+                    <div className={stars >= 1 ? "filled" : "empty"}
+                        onMouseEnter={() => {  setStars(1)} }
+                        onMouseLeave={() => {  setStars(stars)} }
+                        onClick={() => {  onChange(1)} }
+                    >
+                        <i className="fa-solid fa-star"></i>
+                    </div>
+                    <div className={stars >= 2 ? "filled" : "empty"}
+                        onMouseEnter={() => {  setStars(2)} }
+                        onMouseLeave={() => {  setStars(stars)} }
+                        onClick={() => {  onChange(2)} }
+                    >
+                        <i className="fa-solid fa-star"></i>
+                    </div>
+                    <div className={stars >= 3 ? "filled" : "empty"}
+                        onMouseEnter={() => {  setStars(3)} }
+                        onMouseLeave={() => {  setStars(stars)} }
+                        onClick={() => {  onChange(3)} }
+                    >
+                        <i className="fa-solid fa-star"></i>
+                    </div>
+                    <div className={stars >= 4 ? "filled" : "empty"}
+                        onMouseEnter={() => {  setStars(4)} }
+                        onMouseLeave={() => {  setStars(stars)} }
+                        onClick={() => {  onChange(4)} }
+                    >
+                        <i className="fa-solid fa-star"></i>
+                    </div>
+                    <div className={stars >= 5 ? "filled" : "empty"}
+                        onMouseEnter={() => {  setStars(5)} }
+                        onMouseLeave={() => {  setStars(stars)} }
+                        onClick={() => {  onChange(5)} }
+                    >
+                        <i className="fa-solid fa-star"></i>
+                    </div>
+                    <p style={{margin: "0px 0 0 5px", fontSize: "17px"}}>Stars</p>
                 </div>
-                <div className={stars >= 2 ? "filled" : "empty"}
-                    onMouseEnter={() => {  setStars(2)} }
-                    onMouseLeave={() => {  setStars(stars)} }
-                    onClick={() => {  onChange(2)} }
-                >
-                    <i className="fa-solid fa-star"></i>
-                </div>
-                <div className={stars >= 3 ? "filled" : "empty"}
-                    onMouseEnter={() => {  setStars(3)} }
-                    onMouseLeave={() => {  setStars(stars)} }
-                    onClick={() => {  onChange(3)} }
-                >
-                    <i className="fa-solid fa-star"></i>
-                </div>
-                <div className={stars >= 4 ? "filled" : "empty"}
-                    onMouseEnter={() => {  setStars(4)} }
-                    onMouseLeave={() => {  setStars(stars)} }
-                    onClick={() => {  onChange(4)} }
-                >
-                    <i className="fa-solid fa-star"></i>
-                </div>
-                <div className={stars >= 5 ? "filled" : "empty"}
-                    onMouseEnter={() => {  setStars(5)} }
-                    onMouseLeave={() => {  setStars(stars)} }
-                    onClick={() => {  onChange(5)} }
-                >
-                    <i className="fa-solid fa-star"> Stars</i>
-            </div>
-            </div>
-            <button disabled={revText.length >= 10 && stars > 0 ? false : true} onClick={handleSubmit}>Submit Review</button>
+        <button
+            disabled={revText.length >= 10 && stars > 0 ? false : true}
+            onClick={handleSubmit}
+            style={{width: "60%", height: "40px", backgroundColor: "rgb(223, 70, 88)", color: "white", borderRadius: "5px", boxShadow: "3px 3px 3px black"}}
+            >
+            Submit Review
+        </button>
         </div>
     )
 

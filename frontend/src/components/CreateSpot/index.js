@@ -31,12 +31,12 @@ export const CreateSpot = ({spot, formType}) => {
     useEffect(() => {
         const errObj = {};
         const extensions = ['png', 'jpg', 'jpeg'];
-        if (address.length < 1) errObj.address = "Address is required";
-        if (city.length < 3) errObj.city = "City is required";
-        if (!state.length) errObj.state = "State is required";
-        if (!country.length) errObj.country = "Country is required";
-        if (!name.length || name.length > 49) errObj.name = "Name is required";
-        if (description.length < 30) errObj.description = "Description needs a minimum of 30 characters";
+        if (!address || address.length < 1) errObj.address = "Address is required";
+        if (!city || city.length < 3) errObj.city = "City is required";
+        if (!state || !state.length) errObj.state = "State is required";
+        if (!country || !country.length) errObj.country = "Country is required";
+        if (!name || (!name.length || name.length > 49)) errObj.name = "Name is required";
+        if (!description || description.length < 30) errObj.description = "Description needs a minimum of 30 characters";
         if (!price || price < 0) errObj.price = "Price per night is required";
         formType ? setHidden(true) : setHidden(false);
         if (!formType) {
@@ -61,7 +61,8 @@ export const CreateSpot = ({spot, formType}) => {
                 const updatedSpotDetails = await dispatch(thunkGetSingleSpot(updatedSpot.id))
                 history.push(`/spots/${updatedSpotDetails.id}`);
             } else {
-                console.log('LINE 61...failed update', updatedSpot)
+                const failure = await dispatch(thunkUpdateSpot(finalData));
+                console.log('LINE 61...failed update', failure)
             }
         } else {
             let data = { address, city, state, country, name, description, price };

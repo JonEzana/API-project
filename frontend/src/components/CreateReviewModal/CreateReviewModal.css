@@ -25,3 +25,7 @@ placeholder{
 .rating-input .empty {
     color: grey;
 }
+.disabled{
+    background-color: grey;
+    color: white;
+}
