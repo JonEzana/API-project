@@ -62,6 +62,9 @@ export const thunkReviewsBySpot = (id) => async (dispatch) => {
     if (res.ok) {
         const reviewData = await res.json();
         dispatch(actionReviewsBySpot(reviewData));
+    } else {
+        const error = await res.json();
+        return error.message;
     }
 };
 

@@ -107,10 +107,10 @@ export const SpotShow = () => {
                             style={{background: "grey", color: "white", boxShadow: "3px 3px 3px black", borderRadius: "5px"}}
                             buttonText='Post Your Review'
                             modalComponent={<CreateReviewModal spotId={spotId}/>}
-                            />
+                    />
                 </div>
 
-                <p className={user && reviews.length === 0 ? "encouragement" : "hidden"}>Be the first to post a review!</p>
+                <p className={user && reviews.length === 0 && user.id !== id ? "encouragement" : "hidden"}>Be the first to post a review!</p>
 
                 <div className='reviews'>
                     {sortedReviews.map(rev => (
@@ -122,7 +122,7 @@ export const SpotShow = () => {
                             <div className={rev?.User.id == user?.id ? "delete-btn" : "hidden"}>
                                     <OpenModalButton
                                         buttonText="Delete"
-                                        modalComponent={<DeleteReviewModal id={rev.id}/>}
+                                        modalComponent={<DeleteReviewModal revId={rev.id} spotId={spotId}/>}
                                         style={{backgroundColor: "rgb(223, 70, 88)", color: "white"}}
                                         />
                             </div>

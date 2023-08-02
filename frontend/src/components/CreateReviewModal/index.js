@@ -19,7 +19,6 @@ export const CreateReviewModal = ({spotId}) => {
     const [revText, setRevText] = useState('');
     const [stars, setStars] = useState(null)
     const [disabled, setDisabled] = useState(true);
-    console.log('REVIWS - createModal: ', reviews)
     // useEffect(() => {
     //     revText.length >= 10 && stars > 0 ? setDisabled(false) : setDisabled(false);
     //     // reviews.find(el => el.)
@@ -37,11 +36,11 @@ export const CreateReviewModal = ({spotId}) => {
         }
     }
 
-    const reset = () => {
-        setRevText('');
-        setStars(null);
-        setDisabled(true);
-    };
+    // const reset = () => {
+    //     setRevText('');
+    //     setStars(null);
+    //     setDisabled(true);
+    // };
 
     const onChange = (number) => {
         setStars(parseInt(number));

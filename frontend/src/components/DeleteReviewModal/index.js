@@ -5,22 +5,20 @@ import { thunkDeleteReview, thunkReviewsByUser } from "../../store/reviews";
 import { thunkGetSingleSpot } from "../../store/spots";
 import { useHistory } from "react-router-dom";
 
-export const DeleteReviewModal = ({id}) => {
+export const DeleteReviewModal = ({revId, spotId}) => {
     const history = useHistory();
     const { closeModal } = useModal();
     const dispatch = useDispatch();
-    const reviews = useSelector(state => state.reviews.user);
-    console.log('DeleteReviewMOdal, reviews by user', reviews)
 
     useEffect(() => {
         dispatch(thunkReviewsByUser())
     }, []);
 
     const yes = async () => {
-        await dispatch(thunkDeleteReview(id));
-        await dispatch(thunkGetSingleSpot(id))
+        await dispatch(thunkDeleteReview(revId));
+        await dispatch(thunkGetSingleSpot(spotId))
         closeModal();
-        history.push(`/spots/${id}`);
+        history.push(`/spots/${spotId}`);
     };
 
     return (
