@@ -1,8 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
 .spots-container{
     display: grid;
     grid-template-columns: repeat(4, 25%);
     margin: 100px 50px;
-    font-family:'Times New Roman', Times, serif;
+    font-family:Montserrat;
 }
 
 .spot{

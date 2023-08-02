@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
 #modal-content{
     border-radius: 14px;
     /* height: 200px; */
@@ -5,6 +7,7 @@
     width: 28%;
     height: 60%;
     background-color: white;
+    font-family: Montserrat;
 }
 .errors{
     color: red;
@@ -21,17 +24,21 @@
     height: 100px;
 }
 .signup-btn{
-    width: 40%;
+    width: 92%;
+    height: 30px;
+    font-family: Montserrat;
 }
 .signup-enabled{
-    width: 40%;
-    background-color: rgb(223, 70, 88);
+    width: 92%;
+    background-color: #41bee6;
     color: white;
     border: 1px black solid;
     box-shadow: 3px 3px 3px black;
+    height: 30px;
+    font-family: Montserrat;
 
 }
 .signup-enabled:hover{
-    background-color: rgb(141, 34, 46);
+    background-color: #156d8a;
     color: white
 }

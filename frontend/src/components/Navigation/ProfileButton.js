@@ -77,7 +77,6 @@ function ProfileButton({ user }) {
                 itemText="Log In"
                 onItemClick={closeMenu}
                 modalComponent={<LoginFormModal />}
-                style={{borderRadius: "10px"}}
                 />
               </li>
               <li className="li">
@@ -86,7 +85,6 @@ function ProfileButton({ user }) {
                 itemText="Sign Up"
                 onItemClick={closeMenu}
                 modalComponent={<SignupFormModal />}
-                style={{borderRadius: "10px"}}
                 />
                 </li>
             </div>

@@ -23,7 +23,7 @@ module.exports = {
       },
       address: {
         type: Sequelize.STRING,
-        unique: true,
+        // unique: true,
         allowNull: false
       },
       city: {
@@ -48,7 +48,7 @@ module.exports = {
       },
       name: {
         type: Sequelize.STRING,
-        unique: true,
+        // unique: true,
         allowNull: false
       },
       description: {

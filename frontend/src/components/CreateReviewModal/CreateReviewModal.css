@@ -14,7 +14,7 @@
 }
 placeholder{
     text-align: left;
-    border: 1px solid red;
+    /* border: 1px solid red; */
 }
 .rating-input{
     margin-bottom: 20px;;
@@ -24,4 +24,8 @@ placeholder{
 }
 .rating-input .empty {
     color: grey;
+}
+.disabled{
+    background-color: grey;
+    color: white;
 }

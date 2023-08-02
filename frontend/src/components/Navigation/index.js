@@ -12,16 +12,19 @@ function Navigation({ isLoaded }) {
 
   return (
       <div className='nav-bar'>
-          <NavLink exact to="/">
-            <div className="logo-btn">
-              <i className="fa-brands fa-airbnb"> fairdnd</i>
+          <NavLink exact to="/" style={{textDecoration: "none"}}>
+            <div className="logo-btn" style={{display: "flex", flexDirection: "row", justifyContent: "center", marginLeft: "60px"}}>
+              <i className="fa-brands fa-airbnb" style={{color: "#41BEE6", fontSize: "45px"}}></i>
+              <div className="logo-title" style={{color: "#41BEE6", textDecoration: "none", fontSize: "25px", alignSelf: "center", marginLeft: "5px"}}>fairdnd</div>
             </div>
           </NavLink>
           {sessionUser && <NavLink to="/spots/new" className="new-spot-link">
             Create a New Spot
           </NavLink>}
           {isLoaded && (
-            <ProfileButton user={sessionUser} />
+            <div className="prof-btn" style={{marginRight: "75px"}}>
+              <ProfileButton user={sessionUser} />
+            </div>
           )}
       </div>
   );
