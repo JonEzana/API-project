@@ -38,7 +38,6 @@ export const SpotShow = () => {
     const feature = () => {
         window.alert('Feature Coming Soon...');
     };
-    console.log("SpotImages....", SpotImages)
     return(
         <div className="_main_">
 

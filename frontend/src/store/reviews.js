@@ -6,7 +6,7 @@ const SPOT_REVIEWS = 'api/spotReviews';
 const USER_REVIEWS = 'api/userReviews';
 
 //////----- CREATE ------////////
-export const actionCreateReview = (review) => (console.log('IN ACTION CREATOR'), {
+export const actionCreateReview = (review) => ({
     type: CREATE,
     review
 });
@@ -27,7 +27,6 @@ export const thunkCreateReview = (data) => async (dispatch, getState) => {
         dispatch(actionCreateReview(review));
         return review;
     } else {
-        console.log('Create thunk - in error condtl')
         const error = await res.json();
         return error;
     }
@@ -90,7 +89,6 @@ const initialState = {spot: {}, user: {}};
 export default function reviewsReducer(state = initialState, action) {
     switch(action.type) {
         case CREATE: {
-            console.log('IN REDUCER')
             const newState = {...state, spot: {}, user: {...state.user}};
             const review = action.review;
             newState.spot[review.id] = review;

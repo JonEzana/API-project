@@ -19,7 +19,7 @@ function App() {
   }, [dispatch]);
 
   return (
-    <>
+    <React.Fragment>
       <Navigation isLoaded={isLoaded} />
       {isLoaded && <Switch>
           <Route exact path='/'>
@@ -41,7 +41,7 @@ function App() {
             <CreateReviewModal />
           </Route>
         </Switch>}
-    </>
+    </React.Fragment>
   );
 }
 

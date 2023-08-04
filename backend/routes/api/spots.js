@@ -247,8 +247,7 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
         res.json({message: "Spot couldn't be found"});
     }  else {
         spot = spot.toJSON();
-        // console.log('SPOT: ', spot)
-        // AUTHORIZATION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // AUTHORIZATION
         if (req.user.id !== spot.ownerId) {
             res.statusCode = 403;
             res.json({message: "Forbidden"})
@@ -316,7 +315,6 @@ router.put('/:spotId', requireAuth, validateSpotCreation, async (req, res) => {
 
 // Delete a spot -- AUTHORIZATION
 router.delete('/:spotId', requireAuth, async (req, res) => {
-    // console.log('REQ: ', req, '/REQ')
     const spot = await Spot.findByPk(req.params.spotId);
     if (!spot) {
         res.statusCode = 404;
@@ -335,23 +333,16 @@ router.delete('/:spotId', requireAuth, async (req, res) => {
 
 // Create a Review for a Spot based on Spot id
 router.post('/:spotId/reviews', requireAuth, validateReviewCreation, async (req, res) => {
-    console.log('ROUTE - req.body', req.body)
     let spot = await Spot.findByPk(req.params.spotId);
-    console.log('2')
     if (!spot) {
-        console.log('3')
         res.statusCode = 404;
         return res.json({message: "Spot couldn't be found"})
     } else {
-        console.log('4')
         let reviews = await spot.getReviews({where: {userId: req.user.id}});
-        // console.log('REVIEWS: ', reviews)
         if (reviews.length) {
-            console.log('5')
             res.statusCode = 500;
             return res.json({message: "User already has a review for this spot"})
         } else {
-            console.log('6')
             const { review, stars } = req.body;
             const newReview = await Review.create({
                 userId: req.user.id,
@@ -359,7 +350,6 @@ router.post('/:spotId/reviews', requireAuth, validateReviewCreation, async (req,
                 review,
                 stars,
             });
-            console.log('7')
             return res.status(201).json(newReview)
         }
     }

@@ -12,7 +12,6 @@ export const SpotsIndex = () => {
     const history = useHistory();
     const rawSpots = useSelector(state => state.spots.allSpots);
     const currentUser = useSelector(state => state.session.user)
-    console.log('RAW SPOTS', rawSpots)
 
     useEffect(() => {
         // if (!rawSpots) return null;
