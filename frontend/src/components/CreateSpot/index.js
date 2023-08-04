@@ -30,28 +30,28 @@ export const CreateSpot = ({spot, formType}) => {
 
     useEffect(() => {
         const errObj = {};
-        const extensions = ['png', 'jpg', 'jpeg'];
+        const validExtensions = ['png', 'jpg', 'jpeg'];
+
         if (!address || address.length < 1) errObj.address = "Address is required";
         if (!city || city.length < 3) errObj.city = "City is required";
         if (!state || !state.length) errObj.state = "State is required";
         if (!country || !country.length) errObj.country = "Country is required";
         if (!name || (!name.length || name.length > 49)) errObj.name = "Name is required";
         if (!description || description.length < 30) errObj.description = "Description needs a minimum of 30 characters";
-        if (!price || price < 0) errObj.price = "Price per night is required";
+        if (!price || !price || price === 0) errObj.price = "Price per night is required";
         formType ? setHidden(true) : setHidden(false);
         if (!formType) {
             if (preview.length < 1) errObj.previewLength = "At least one preview image is required";
-            if (preview && !extensions.includes(preview.split('.').slice(-1)[0])) errObj.previewExtension = "Image URLs must end in .png, .jpg, or .jpeg";
-            if (img && !extensions.includes(img.split('.').slice(-1)[0])) errObj.img = "Image URLs must end in .png, .jpg, or .jpeg";
-            if (img2 && !extensions.includes(img2.split('.').slice(-1)[0])) errObj.img2 = "Image URLs must end in .png, .jpg, or .jpeg";
-            if (img3 && !extensions.includes(img3.split('.').slice(-1)[0])) errObj.img3 = "Image URLs must end in .png, .jpg, or .jpeg";
-            if (img4 && !extensions.includes(img4.split('.').slice(-1)[0])) errObj.img4 = "Image URLs must end in .png, .jpg, or .jpeg";
+            if (preview && !validExtensions.includes(preview.split('.').slice(-1)[0])) errObj.previewExtension = "Image URLs must end in .png, .jpg, or .jpeg";
+            if (img && !validExtensions.includes(img.split('.').slice(-1)[0])) errObj.imj = "Image URLs must end in .png, .jpg, or .jpeg";
+            if (img2 && !validExtensions.includes(img2.split('.').slice(-1)[0])) errObj.imj = "Image URLs must end in .png, .jpg, or .jpeg";
+            if (img3 && !validExtensions.includes(img3.split('.').slice(-1)[0])) errObj.imj = "Image URLs must end in .png, .jpg, or .jpeg";
+            if (img4 && !validExtensions.includes(img4.split('.').slice(-1)[0])) errObj.imj = "Image URLs must end in .png, .jpg, or .jpeg";
         }
         Object.values(errObj).length ? setDisabled(true) : setDisabled(false);
 
         setValidationObj(errObj);
     }, [address, city, state, country, name, description, price, preview, img, img2, img3, img4]);
-    console.log('PREVIEW!!!!.....', preview)
     const handleSubmit = async(e) => {
         e.preventDefault();
         if (formType === "Update your Spot") {
@@ -62,7 +62,6 @@ export const CreateSpot = ({spot, formType}) => {
                 history.push(`/spots/${updatedSpotDetails.id}`);
             } else {
                 const failure = await dispatch(thunkUpdateSpot(finalData));
-                console.log('LINE 61...failed update', failure)
             }
         } else {
             let data = { address, city, state, country, name, description, price };
@@ -188,13 +187,18 @@ export const CreateSpot = ({spot, formType}) => {
                     <p className="top">Set a base price for your spot</p>
                     <p className="bottom">Competitive pricing can help your listing stand out and rank higher in search results.</p>
                 <br />
+                <div style={{display: "flex", flexDirection: "row", alignItems: "center", gap: '5px'}}>
+                    <i style={{fontSize: "18px"}}>$</i>
                     <input className="input-box pricebox"
                         type='number'
                         value={price}
                         placeholder='Price per night (USD)'
                         onChange={e => setPrice(e.target.value)}
                         style={{width: "99%", height: "35px"}}
+                        min={0}
+                        step=".01"
                         />
+                </div>
                 </label>
                 {validationObj.price && <p className="spotValErrors">{validationObj.price}</p>}
 
@@ -241,11 +245,14 @@ export const CreateSpot = ({spot, formType}) => {
                             style={{width: "99%", height: "35px"}}
                             /> <br/>
                     </label>
-                {validationObj.previewLength && <p className={formType ? "hidden" : "imageErrors"}>{validationObj.previewLength}</p>}
-                {validationObj.previewExtension && <p className={formType ? "hidden" : "imageErrors"}>{validationObj.previewExtension}</p>}
-                {/* {(validationObj.previewUrl || validationObj.img) && <p className={formType ? "hidden" : "errors imageErrors"}>{validationObj.previewUrl}</p>} */}
+                {validationObj.previewLength && <p className={formType ? "hidden" : "imjErrors"}>{validationObj.previewLength}</p>}
+                {validationObj.previewExtension && <p className={formType ? "hidden" : "imjErrors"}>{validationObj.previewExtension}</p>}
+                {validationObj.imj && <p className={formType ? "hidden" : "imjErrors"}>{validationObj.imj}</p>}
+                {/* {validationObj.imj && <p className={formType ? "hidden" : "imjErrors"}>{validationObj.imj}</p>}
+                {validationObj.imj && <p className={formType ? "hidden" : "imjErrors"}>{validationObj.imj}</p>}
+                {validationObj.imj && <p className={formType ? "hidden" : "imjErrors"}>{validationObj.imj}</p>} */}
                 </div>
-                <hr style={{background: "black", height: "1px", width: "100%" }}/>
+                {!formType && <hr style={{background: "black", height: "1px", width: "100%" }}/>}
                 <button className={disabled ? "disabledBtn" : "finalizeBtn"} type="submit" disabled={disabled} style={{marginBottom: "5px"}}>{formType ? "Update Spot" : "Create Spot"}</button>
             </form>
         </div>

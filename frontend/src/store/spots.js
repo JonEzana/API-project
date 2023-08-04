@@ -35,7 +35,6 @@ export const thunkGetSingleSpot = (spotId) => async (dispatch) => {
     const res = await fetch(`/api/spots/${spotId}`);
     if (res.ok) {
         const spot = await res.json();
-        // console.log('GET SINGLE SPOT THUNK, ', spot)
         dispatch(actionGetSingleSpot(spot));
         return spot;
     } else {
@@ -188,7 +187,6 @@ export default function spotsReducer(state = initialState, action) {
                 singleSpot: {...action.payload},
                 currentUserSpots: {...state.currentUserSpots, [action.payload.id]: action.payload}
             };
-            console.log('Reducer - update case, newState....', newState)
             return newState;
         }
         case DELETE_SPOT: {

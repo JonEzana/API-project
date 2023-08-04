@@ -68,7 +68,6 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
             } else {
                 let newImage = await ReviewImage.create({reviewId: review.id, url: req.body.url});
                 newImage = newImage.toJSON();
-                // console.log('NEW IMAGE: ', newImage);
                 res.json({id: newImage.id, url: newImage.url})
             }
         }
@@ -99,7 +98,6 @@ router.put('/:reviewId', requireAuth, validateReviewCreation, async (req, res) =
         chosenReview.review = review;
         chosenReview.stars = stars;
         await chosenReview.save();
-        // console.log(chosenReview.toJSON())
         return res.status(200).json(chosenReview);
     }
 })

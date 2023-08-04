@@ -14,7 +14,6 @@ export const UpdateSpot = () => {
     }, [dispatch]);
 
     const spot = useSelector(state => state.spots.singleSpot)
-    // console.log('UpdateSpot component, LINE 18....', spot)
 
     return (
         <CreateSpot spot={spot} formType={"Update your Spot"} />

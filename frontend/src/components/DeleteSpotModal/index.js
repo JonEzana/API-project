@@ -6,12 +6,10 @@ import { useHistory } from "react-router-dom";
 import './DeleteSpotModal.css'
 
 export const DeleteSpotModal = ({id}) => {
-    console.log('DELETE ID', id)
     const history = useHistory();
     const { closeModal } = useModal();
     const dispatch = useDispatch();
     const spot = useSelector(state => state.spots.singleSpot);
-    console.log('SPOT', spot)
 
     const yes = async () => {
         await dispatch(thunkDeleteSpot(id));

@@ -14,7 +14,6 @@ export const CreateReviewModal = ({spotId}) => {
     const reviews = useSelector(state => state.reviews.spot);
     const user = useSelector(state => state.session.user);
     const userId = user.id;
-    console.log('LINE 17....', user)
 
     const [revText, setRevText] = useState('');
     const [stars, setStars] = useState(null)
@@ -57,7 +56,7 @@ export const CreateReviewModal = ({spotId}) => {
                 value={revText}
                 onChange={(e) => setRevText(e.target.value)}
             />
-            {valObj.review && <p className="errorsForReview" style={{marginBottom: "10px"}}>{valObj.review}</p>}
+            {valObj.review && <p className="errorsForReview" style={{marginBottom: "10px", color: "red"}}>{valObj.review}</p>}
                 <div className="rating-input" style={{display: "flex", flexDirection: "row", alignItems: "start"}}>
                     <div className={stars >= 1 ? "filled" : "empty"}
                         onMouseEnter={() => {  setStars(1)} }

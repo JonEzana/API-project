@@ -50,6 +50,7 @@ form{
 .demoUser:hover{
     background-color: green;
     color: white;
+    cursor: pointer;
 }
 .submit,.demoUser{
     height: 40px;
@@ -67,5 +68,20 @@ form{
 .submit.enabled:hover{
     cursor: pointer;
     background-color: #0e77a1;
-
+}
+.hrOr:before,
+.hrOr:after{
+    content: " ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯ ";
+    flex: 1 1;
+    margin: auto;
+}
+.external-links{
+    text-decoration: none;
+    font-size: 16px;
+}
+.externalLinksDiv{
+    width: 35vh;
+}
+.externalLinksDiv:hover{
+    background-color: rgb(237, 237, 237);
 }
