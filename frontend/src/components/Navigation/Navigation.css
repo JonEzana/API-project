@@ -73,7 +73,8 @@
     margin: -10px auto;
 }
 .hello,.email{
-    font-size: 15px;
+    font-size: 1vw;
+    overflow-wrap: break-word;
 }
 .loggedout{
     display: flex;

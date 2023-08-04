@@ -98,9 +98,10 @@ export const CreateReviewModal = ({spotId}) => {
         <button
             disabled={revText.length >= 10 && stars > 0 ? false : true}
             onClick={handleSubmit}
-            style={{width: "60%", height: "40px", backgroundColor: "#41bee6", color: "white", borderRadius: "5px", boxShadow: "3px 3px 3px black"}}
+            style={revText.length >= 10 && stars > 0 ? {width: "60%", height: "40px", backgroundColor: "#41bee6", color: "white", borderRadius: "5px", boxShadow: "3px 3px 3px black"} :
+            {width: "60%", height: "40px", backgroundColor: "grey", color: "white", borderRadius: "5px", boxShadow: "3px 3px 3px black"}}
             >
-            Submit Review
+            Submit Your Review
         </button>
         </div>
     )

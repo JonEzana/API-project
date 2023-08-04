@@ -27,6 +27,7 @@
 .delete{
     background-color: rgb(223, 70, 88);
     color: white;
+    border-radius: 10px;
 }
 .delete:hover{
     cursor: pointer;
@@ -35,6 +36,7 @@
 .keep{
     background-color: rgb(88, 87, 87);
     color:white;
+    border-radius: 10px;
 }
 .keep:hover{
     color: white;

@@ -19,6 +19,7 @@
     box-shadow: 3px 3px 3px black;
     margin-right: 10px;
     font-family: Montserrat;
+    border-radius: 10px;
 }
 .createbtn:hover{
     background-color: #1287af;
@@ -38,6 +39,7 @@
     box-shadow: 3px 3px 3px black;
     margin-right: 10px;
     font-family: Montserrat;
+    border-radius: 6px;
 }
 .updatebtn:hover{
     background-color: #1287af;
