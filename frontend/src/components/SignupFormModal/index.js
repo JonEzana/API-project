@@ -14,12 +14,19 @@ function SignupFormModal() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [disabled, setDisabled] = useState(true);
   const [errors, setErrors] = useState({});
+  const [pwVal, setPwVal] = useState({});
+  const [showPassword, setShowPassword] = useState(false);
+  const [pwType, setPwType] = useState("password");
   const { closeModal } = useModal();
 
   useEffect(() => {
+    // const errObj = {};
     if (email.length && username.length >= 4 && firstName.length && lastName.length && password.length >= 6 && confirmPassword.length >= 6) setDisabled(false);
     else setDisabled(true);
-  }, [email, username, password, firstName, lastName, confirmPassword]);
+    // if (password.length === confirmPassword.length && password !== confirmPassword) errObj.matchingPW = "Confirm Password field must be the same as the Password field";
+    // setPwVal(errObj);
+    showPassword === false ? setPwType("password") : setPwType("text");
+  }, [email, username, password, firstName, lastName, confirmPassword, showPassword]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -41,12 +48,16 @@ function SignupFormModal() {
             setErrors(data.errors);
           }
         });
-    }
-    return setErrors({
-      confirmPassword: "Confirm Password field must be the same as the Password field"
-    });
+      }
+      return setErrors({
+        confirmPassword: "Confirm Password field must be the same as the Password field"
+      });
   };
 
+  const handleShowPW = () => {
+    showPassword === false ? setShowPassword(true) : setShowPassword(false);
+    // showPassword === true ? setPwType("text") : setPwType("password")
+  };
 
   return (
     <div className="signup">
@@ -98,20 +109,25 @@ function SignupFormModal() {
         {errors.username && <p className="errors">{errors.username}</p>}
 
         <label>
-          <input
-          placeholder="Password"
-            type="password"
+          <div className="ogPW" style={{display: "flex", flexDirection: "row", width: "100%", marginLeft: "4%"}}>
+            <input
+            placeholder="Password"
+            type={pwType}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
             style={{width: "90%", height: "30px", borderRadius: "10px"}}
-          />
+            />
+            {/* <button style={{border: "none", backgroundColor: "white"}}>👁</button> */}
+            {showPassword === false && <i className="fa-solid fa-eye-slash" style={{color: "#000000", alignSelf: "center", position: "absolute", marginLeft: "75%", zIndex: "2"}} onClick={handleShowPW}></i>}
+            {showPassword === true && <i className="fa-solid fa-eye" style={{color: "#000000", alignSelf: "center", position: "absolute", marginLeft: "75%", zIndex: "2"}} onClick={handleShowPW}></i>}
+          </div>
         </label>
         {errors.password && <p className="errors">{errors.password}</p>}
         <label>
           <input
           placeholder="Confirm Password"
-            type="password"
+            type={pwType}
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
@@ -121,6 +137,9 @@ function SignupFormModal() {
         {errors.confirmPassword && (
           <p className="errors">{errors.confirmPassword}</p>
         )}
+        {/* {pwVal.matchingPW && (
+          <p className="errors">{pwVal.matchingPW}</p>
+        )} */}
         <button disabled={disabled} type="submit" className={disabled ? "signup-btn" : "signup-enabled"} style={{borderRadius: "10px"}}>Sign Up</button>
       </form>
     </div>

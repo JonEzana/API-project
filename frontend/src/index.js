@@ -11,7 +11,7 @@ import configureStore from './store';
 import { restoreCSRF, csrfFetch } from './store/csrf';
 import * as sessionActions from "./store/session";
 import { ModalProvider, Modal } from "./context/Modal";
-import { ThemeProvider } from './context/Theme';
+// import { ThemeProvider } from './context/Theme';
 
 const store = configureStore();
 
@@ -29,7 +29,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 function Root() {
   return (
-    <ThemeProvider>
+    // <ThemeProvider>
       <ModalProvider>
         <Provider store={store}>
           <BrowserRouter>
@@ -38,7 +38,7 @@ function Root() {
           </BrowserRouter>
         </Provider>
       </ModalProvider>
-    </ThemeProvider>
+    // </ThemeProvider>
   );
 }
 

@@ -73,20 +73,21 @@ function ProfileButton({ user }) {
           ) : (
             <div className="dropdown-content loggedout">
               <li className="li">
-              <OpenModalMenuItem
-                itemText="Log In"
-                onItemClick={closeMenu}
-                modalComponent={<LoginFormModal />}
-                />
-              </li>
-              <li className="li">
-
-              <OpenModalMenuItem
-                itemText="Sign Up"
-                onItemClick={closeMenu}
-                modalComponent={<SignupFormModal />}
-                />
+                <OpenModalMenuItem
+                  itemText="Sign Up"
+                  onItemClick={closeMenu}
+                  modalComponent={<SignupFormModal />}
+                  style={{border: "none", width: "100%", fontWeight: "900", textAlign: "left"}}
+                  />
                 </li>
+              <li className="li">
+                <OpenModalMenuItem
+                  itemText="Log In"
+                  onItemClick={closeMenu}
+                  modalComponent={<LoginFormModal />}
+                  style={{border: "none", width: "100%", textAlign: "left"}}
+                  />
+              </li>
             </div>
         )}
         </ul>

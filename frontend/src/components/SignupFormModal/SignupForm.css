@@ -42,3 +42,7 @@
     background-color: #156d8a;
     color: white
 }
+.fa-eye:hover,
+.fa-eye-slash:hover{
+   cursor: pointer;
+}

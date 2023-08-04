@@ -91,7 +91,7 @@ export const CreateSpot = ({spot, formType}) => {
 
     return (
         <div className="spot-form">
-            <h2>{formType ? formType : "Create a new Spot"}</h2>
+            <h2>{formType ? formType : "Create a New Spot"}</h2>
             <p className="top">Where's your place located?</p>
             <p className="bottom">Guests will only get your exact address once they've booked a reservation.</p>
 
@@ -253,7 +253,7 @@ export const CreateSpot = ({spot, formType}) => {
                 {validationObj.imj && <p className={formType ? "hidden" : "imjErrors"}>{validationObj.imj}</p>} */}
                 </div>
                 {!formType && <hr style={{background: "black", height: "1px", width: "100%" }}/>}
-                <button className={disabled ? "disabledBtn" : "finalizeBtn"} type="submit" disabled={disabled} style={{marginBottom: "5px"}}>{formType ? "Update Spot" : "Create Spot"}</button>
+                <button className={disabled ? "disabledBtn" : "finalizeBtn"} type="submit" disabled={disabled} style={{marginBottom: "5px", borderRadius: "10px"}}>{formType ? "Update Spot" : "Create Spot"}</button>
             </form>
         </div>
     )

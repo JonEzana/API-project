@@ -11,6 +11,8 @@ function LoginFormModal() {
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
   const [disabled, setDisabled] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
+  const [pwType, setPwType] = useState("password");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -41,7 +43,13 @@ function LoginFormModal() {
   useEffect(() => {
     if (credential.length >= 4 && password.length >= 6) setDisabled(false);
     else setDisabled(true);
-  }, [credential, password])
+    showPassword === false ? setPwType("password") : setPwType("text");
+  }, [credential, password, showPassword])
+
+  const handleShowPW = () => {
+    showPassword === false ? setShowPassword(true) : setShowPassword(false);
+    // showPassword === true ? setPwType("text") : setPwType("password")
+  };
 
   return (
     <div className="loginmodal">
@@ -59,15 +67,19 @@ function LoginFormModal() {
           />
         </label>
         <label className="label">
-          <input
-          className="input"
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            style={{borderRadius: "10px"}}
-          />
+          <div className="ogPW" style={{display: "flex", flexDirection: "row", width: "100%"}}>
+            <input
+              className="input"
+              type={pwType}
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              style={{borderRadius: "10px"}}
+            />
+            {showPassword === false && <i className="fa-solid fa-eye-slash" style={{color: "#000000", alignSelf: "center", position: "absolute", marginLeft: "81%", zIndex: "2"}} onClick={handleShowPW}></i>}
+            {showPassword === true && <i className="fa-solid fa-eye" style={{color: "#000000", alignSelf: "center", position: "absolute", marginLeft: "81%", zIndex: "2"}} onClick={handleShowPW}></i>}
+          </div>
         </label>
         {errors.credential && (
           <p className="valErr">{errors.credential}</p>

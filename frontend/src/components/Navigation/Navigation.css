@@ -73,7 +73,8 @@
     margin: -10px auto;
 }
 .hello,.email{
-    font-size: 15px;
+    font-size: 1vw;
+    overflow-wrap: break-word;
 }
 .loggedout{
     display: flex;
@@ -121,9 +122,12 @@
 .fa-user-circle{
     color: black;
 }
+.signup-and-login-btns{
+    background-color: white;
+}
 .signup-and-login-btns:hover{
     cursor: pointer;
-    background-color: rgb(157, 154, 154);
+    background-color: #cfecf6;
 }
 .hidden{
     display: none;
