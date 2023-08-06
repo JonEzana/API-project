@@ -42,8 +42,8 @@ export const SpotShow = () => {
         <div className="_main_">
 
             <div className='spot-header'>
-                <h2>{name}</h2>
-                <h4>{city}, {state}, {country}</h4>
+                <p style={{fontWeight: "500", fontSize: "30px"}}>{name}</p>
+                <p style={{fontWeight: "100px"}}>{city}, {state}, {country}</p>
             </div>
             <div className='img-container'>
                 {SpotImages.length && SpotImages.map(img => (

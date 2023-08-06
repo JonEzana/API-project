@@ -44,7 +44,7 @@ export const ManageSpots = () => {
                     <OpenModalButton
                         buttonText="Delete"
                         modalComponent={<DeleteSpotModal id={spot.id}/>}
-                        style={{backgroundColor: "#e66941", color: "white", border: "1px solid black", boxShadow: "3px 3px 3px black", fontFamily: "Montserrat", borderRadius: "6px"}}
+                        style={{backgroundColor: "#e66941", color: "white", border: "1px solid black", boxShadow: "3px 3px 3px black", fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif", borderRadius: "6px"}}
                     />
                 </div>
             ))}
