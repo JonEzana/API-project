@@ -32,7 +32,7 @@ export const CreateSpot = ({spot, formType}) => {
         const errObj = {};
         const validExtensions = ['png', 'jpg', 'jpeg'];
 
-        if (!address || address.length < 1) errObj.address = "Address is required";
+        if (address && address.length < 1) errObj.address = "Address is required";
         if (!city || city.length < 3) errObj.city = "City is required";
         if (!state || !state.length) errObj.state = "State is required";
         if (!country || !country.length) errObj.country = "Country is required";

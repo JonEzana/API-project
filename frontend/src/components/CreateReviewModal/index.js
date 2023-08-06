@@ -48,7 +48,7 @@ export const CreateReviewModal = ({spotId}) => {
       };
 
     return (
-        <div className="wholemfthing" style={{marginTop: "4%", fontFamily: "Montserrat"}} >
+        <div className="wholemfthing" style={{marginTop: "4%", fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif"}} >
             <h2>How was your stay?</h2>
             <input className='text-box'
                 placeholder="Leave your review here..."
