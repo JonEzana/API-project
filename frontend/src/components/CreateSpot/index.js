@@ -101,7 +101,7 @@ export const CreateSpot = ({spot, formType}) => {
                 <br />
                 <input
                 id="country"
-                style={{width: "99%", height: "35px"}}
+                style={{width: "99%", height: "35px", borderRadius: "10px", border: "1px black solid", marginTop: "3px"}}
                     type='text'
                     value={country}
                     placeholder='Country'
@@ -115,7 +115,7 @@ export const CreateSpot = ({spot, formType}) => {
                     <br />
                     <input id="stAddress"
                         type='text'
-                        style={{width: "99%", height: "35px"}}
+                        style={{width: "99%", height: "35px", borderRadius: "10px", border: "1px black solid", marginTop: "3px"}}
                         value={address}
                         placeholder='Address'
                         onChange={e => setAddress(e.target.value)}
@@ -128,7 +128,7 @@ export const CreateSpot = ({spot, formType}) => {
                     <br />
                     <input id="city"
                         type='text'
-                        style={{width: "99%", height: "35px"}}
+                        style={{width: "99%", height: "35px", borderRadius: "10px", border: "1px black solid", marginTop: "3px"}}
                         value={city}
                         placeholder='City'
                         onChange={e => setCity(e.target.value)}
@@ -140,7 +140,7 @@ export const CreateSpot = ({spot, formType}) => {
                     State
                     <br />
                     <input className="state"
-                        style={{width: "99%", height: "35px"}}
+                        style={{width: "99%", height: "35px", borderRadius: "10px", border: "1px black solid", marginTop: "3px"}}
                         type='text'
                         value={state}
                         placeholder='STATE'
@@ -160,7 +160,7 @@ export const CreateSpot = ({spot, formType}) => {
                         value={description}
                         placeholder='Please write at least 30 characters'
                         onChange={e => setDescription(e.target.value)}
-                        style={{width: "99%", height: "70px"}}
+                        style={{width: "99%", height: "70px", borderRadius: "10px", border: "1px black solid", marginTop: "3px"}}
                         />
                 </label>
                 {validationObj.description && <p className="spotValErrors">{validationObj.description}</p>}
@@ -176,7 +176,7 @@ export const CreateSpot = ({spot, formType}) => {
                         value={name}
                         placeholder='Name of your spot'
                         onChange={e => setName(e.target.value)}
-                        style={{width: "99%", height: "35px"}}
+                        style={{width: "99%", height: "35px", borderRadius: "10px", border: "1px black solid", marginTop: "3px"}}
                         />
                 </label>
                 {validationObj.name && <p className="spotValErrors">{validationObj.name}</p>}
@@ -194,7 +194,7 @@ export const CreateSpot = ({spot, formType}) => {
                         value={price}
                         placeholder='Price per night (USD)'
                         onChange={e => setPrice(e.target.value)}
-                        style={{width: "99%", height: "35px"}}
+                        style={{width: "99%", height: "35px", borderRadius: "10px", border: "1px black solid", marginTop: "3px"}}
                         min={0}
                         step=".01"
                         />
@@ -203,7 +203,7 @@ export const CreateSpot = ({spot, formType}) => {
                 {validationObj.price && <p className="spotValErrors">{validationObj.price}</p>}
 
                 <hr style={{background: "black", height: "1px", width: "100%" }}/>
-                <div className={hidden ? "hidden" : "imageurls"}>
+                <div className={hidden ? "hidden" : "imageurls"} style={{width: "100%"}}>
                     <label className="img">
                         <p className="top">Liven up your spot with photos</p>
                         <p className="bottom">Submit a link to at least one photo to publish your spot.</p>
@@ -213,14 +213,14 @@ export const CreateSpot = ({spot, formType}) => {
                             value={preview}
                             placeholder='Preview Image URL'
                             onChange={(e) => setPreview(e.target.value)}
-                            style={{width: "99%", height: "35px"}}
+                            style={{width: "99%", height: "35px", borderRadius: "10px", border: "1px black solid", marginTop: "3px"}}
                             /><br/>
                         <input className="input-box"
                             type='text'
                             value={img}
                             placeholder='Image URL'
                             onChange={(e) => setImg(e.target.value)}
-                            style={{width: "99%", height: "35px"}}
+                            style={{width: "99%", height: "35px", borderRadius: "10px", border: "1px black solid", marginTop: "5px"}}
                             /> <br/>
 
                             <input className="input-box"
@@ -228,21 +228,21 @@ export const CreateSpot = ({spot, formType}) => {
                             value={img2}
                             placeholder='Image URL'
                             onChange={(e) => setImg2(e.target.value)}
-                            style={{width: "99%", height: "35px"}}
+                            style={{width: "99%", height: "35px", borderRadius: "10px", border: "1px black solid", marginTop: "5px"}}
                             /> <br/>
                             <input className="input-box"
                             type='text'
                             value={img3}
                             placeholder='Image URL'
                             onChange={(e) => setImg3(e.target.value)}
-                            style={{width: "99%", height: "35px"}}
+                            style={{width: "99%", height: "35px", borderRadius: "10px", border: "1px black solid", marginTop: "5px"}}
                             /> <br/>
                             <input className="input-box"
                             type='text'
                             value={img4}
                             placeholder='Image URL'
                             onChange={(e) => setImg4(e.target.value)}
-                            style={{width: "99%", height: "35px"}}
+                            style={{width: "99%", height: "35px", borderRadius: "10px", border: "1px black solid", marginTop: "5px"}}
                             /> <br/>
                     </label>
                 {validationObj.previewLength && <p className={formType ? "hidden" : "imjErrors"}>{validationObj.previewLength}</p>}
