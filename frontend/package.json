@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@react-google-maps/api": "^2.19.2",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
@@ -37,8 +38,8 @@
     ]
   },
   "devDependencies": {
-    "redux-logger": "^3.0.6",
-    "@babel/plugin-proposal-private-property-in-object": "7.21.0-placeholder-for-preset-env.2"
+    "@babel/plugin-proposal-private-property-in-object": "7.21.0-placeholder-for-preset-env.2",
+    "redux-logger": "^3.0.6"
   },
   "proxy": "http://localhost:8000"
 }
