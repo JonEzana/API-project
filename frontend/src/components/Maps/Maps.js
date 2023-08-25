@@ -8,8 +8,8 @@ const containerStyle = {
 };
 
 const center = {
-  lat: 38.9072,
-  lng: 77.0369,
+  lat: 41.8781,
+  lng: -95.7129,
 };
 
 const Maps = ({ apiKey }) => {
