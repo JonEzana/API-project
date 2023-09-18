@@ -7,6 +7,7 @@ import { thunkReviewsBySpot, thunkReviewsByUser } from "../../store/reviews";
 import OpenModalButton from "../OpenModalButton";
 import { DeleteReviewModal } from "../DeleteReviewModal";
 import { CreateReviewModal } from '../CreateReviewModal';
+import MapContainer from "../Maps";
 import './SpotShow.css';
 
 export const SpotShow = () => {
@@ -78,7 +79,7 @@ export const SpotShow = () => {
             </div> */}
 
 
-            <hr style={{background: "black", height: "1px", width: "100%" }}/>
+            <hr style={{ height: "0.25px", width: "100%" }}/>
 
             <div className="review-portion">
 
@@ -128,8 +129,11 @@ export const SpotShow = () => {
                         </div>
                     ))}
                 </div>
-
             </div>
+            <hr style={{ height: "0.25px", width: "100%" }}/>
+            <p style={{fontWeight: "500", fontSize: "25px"}}>Where you'll be</p>
+            <p style={{ fontSize: "18px"}}>{city}, {state}, United States of America</p>
+            <MapContainer />
         </div>
     )
 }
