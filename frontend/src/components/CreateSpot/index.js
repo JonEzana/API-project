@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { thunkAddImage, thunkCreateSpot, thunkGetCurrentUserSpots, thunkGetSingleSpot, thunkGetSpots, thunkUpdateSpot } from "../../store/spots";
 import { useHistory } from "react-router-dom";
-import './CreateSpot.css'
+import './CreateSpot.css';
 
 export const CreateSpot = ({spot, formType}) => {
     const dispatch = useDispatch();
@@ -11,6 +11,63 @@ export const CreateSpot = ({spot, formType}) => {
     if (spot && spot.id) {
         newData.id = spot.id;
     }
+
+    const validStates = [
+        "AL",
+        "AK",
+        "AZ",
+        "AR",
+        "CA",
+        "CZ",
+        "CO",
+        "CT",
+        "DE",
+        "DC",
+        "FL",
+        "GA",
+        "GU",
+        "HI",
+        "ID",
+        "IL",
+        "IN",
+        "IA",
+        "KS",
+        "KY",
+        "LA",
+        "ME",
+        "MD",
+        "MA",
+        "MI",
+        "MN",
+        "MS",
+        "MO",
+        "MT",
+        "NE",
+        "NV",
+        "NH",
+        "NJ",
+        "NM",
+        "NY",
+        "NC",
+        "ND",
+        "OH",
+        "OK",
+        "OR",
+        "PA",
+        "PR",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VT",
+        "VI",
+        "VA",
+        "WA",
+        "WI",
+        "WY",
+      ];
 
     const [address, setAddress] = useState(spot ? spot.address : '');
     const [city, setCity] = useState(spot ? spot.city : '');
@@ -28,17 +85,19 @@ export const CreateSpot = ({spot, formType}) => {
     const [disabled, setDisabled] = useState(true);
     const [validationObj, setValidationObj] = useState({});
 
+
+
     useEffect(() => {
         const errObj = {};
         const validExtensions = ['png', 'jpg', 'jpeg'];
 
-        if (address && address.length < 1) errObj.address = "Address is required";
-        if (!city || city.length < 3) errObj.city = "City is required";
-        if (!state || !state.length) errObj.state = "State is required";
-        if (!country || !country.length) errObj.country = "Country is required";
-        if (!name || (!name.length || name.length > 49)) errObj.name = "Name is required";
-        if (!description || description.length < 30) errObj.description = "Description needs a minimum of 30 characters";
-        if (!price || !price || price === 0) errObj.price = "Price per night is required";
+        if (address && (address.length < 3 || address.length > 50)) errObj.address = "Address must be between 3 and 50 characters in length";
+        if (city && (city.length < 3 || city.length > 50)) errObj.city = "City must be between 3 and 50 characters in length";
+        if (state && (state.length !== 2 || !validStates.includes(state))) errObj.state = "Valid two-letter state/territory abbreviation is required";
+        if (country && (country.length < 2 || country.length > 20)) errObj.country = "Country must be between 3 and 20 characters in length";
+        if (name && (name.length <= 1 || name.length > 49)) errObj.name = "Name must be between 3 and 50 characters in length";
+        if (description && (description.length < 30 || description.length > 200)) errObj.description = "Description must be between 30 and 200 characters in length";
+        if (price && price < 1) errObj.price = "Price per night must be at least $1";
         formType ? setHidden(true) : setHidden(false);
         if (!formType) {
             if (preview.length < 1) errObj.previewLength = "At least one preview image is required";
@@ -48,7 +107,7 @@ export const CreateSpot = ({spot, formType}) => {
             if (img3 && !validExtensions.includes(img3.split('.').slice(-1)[0])) errObj.imj = "Image URLs must end in .png, .jpg, or .jpeg";
             if (img4 && !validExtensions.includes(img4.split('.').slice(-1)[0])) errObj.imj = "Image URLs must end in .png, .jpg, or .jpeg";
         }
-        Object.values(errObj).length ? setDisabled(true) : setDisabled(false);
+        Object.values(errObj).length > 0 ? setDisabled(true) : setDisabled(false);
 
         setValidationObj(errObj);
     }, [address, city, state, country, name, description, price, preview, img, img2, img3, img4]);
@@ -106,6 +165,7 @@ export const CreateSpot = ({spot, formType}) => {
                     value={country}
                     placeholder='Country'
                     onChange={e => setCountry(e.target.value)}
+                    required
                 />
             </label>
             {validationObj.country && <p className="spotValErrors">{validationObj.country}</p>}
@@ -119,6 +179,7 @@ export const CreateSpot = ({spot, formType}) => {
                         value={address}
                         placeholder='Address'
                         onChange={e => setAddress(e.target.value)}
+                        required
                     />
                 {validationObj.address && <p className="spotValErrors">{validationObj.address}</p>}
                 </label>
@@ -132,6 +193,7 @@ export const CreateSpot = ({spot, formType}) => {
                         value={city}
                         placeholder='City'
                         onChange={e => setCity(e.target.value)}
+                        required
                     />
                 </label>
                 {validationObj.city && <p className="spotValErrors">{validationObj.city}</p>}
@@ -145,6 +207,7 @@ export const CreateSpot = ({spot, formType}) => {
                         value={state}
                         placeholder='STATE'
                         onChange={e => setState(e.target.value)}
+                        required
                     />
                 </label>
                 {validationObj.state && <p className="spotValErrors">{validationObj.state}</p>}
@@ -161,9 +224,11 @@ export const CreateSpot = ({spot, formType}) => {
                         placeholder='Please write at least 30 characters'
                         onChange={e => setDescription(e.target.value)}
                         style={{width: "99%", height: "70px", borderRadius: "10px", border: "1px black solid", marginTop: "3px"}}
+                        required
                         />
                 </label>
                 {validationObj.description && <p className="spotValErrors">{validationObj.description}</p>}
+                {<p>{description.length}/200</p>}
 
                 <hr style={{background: "black", height: "1px", width: "100%" }}/>
 
@@ -177,6 +242,7 @@ export const CreateSpot = ({spot, formType}) => {
                         placeholder='Name of your spot'
                         onChange={e => setName(e.target.value)}
                         style={{width: "99%", height: "35px", borderRadius: "10px", border: "1px black solid", marginTop: "3px"}}
+                        required
                         />
                 </label>
                 {validationObj.name && <p className="spotValErrors">{validationObj.name}</p>}
@@ -197,6 +263,7 @@ export const CreateSpot = ({spot, formType}) => {
                         style={{width: "99%", height: "35px", borderRadius: "10px", border: "1px black solid", marginTop: "3px"}}
                         min={0}
                         step=".01"
+                        required
                         />
                 </div>
                 </label>
